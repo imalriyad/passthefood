@@ -4,8 +4,16 @@ import saveFood from "../hero/food.png"
 import impact from "../hero/impact.png"
 import support from "../hero/support.png"
 import { Button } from '@nextui-org/react';
+import {Avatar, AvatarGroup} from "@nextui-org/react";
+import UseAllContext from '../../../hooks/UseAllContext';
+
 
 const Hero = () => {
+  const {name} = UseAllContext()
+
+ console.log(name);
+ 
+
     return (
       <div className="relative md:px-6 bg-fixed max-w-screen-xl mx-auto overflow-hidden lg:py-20">
  
@@ -21,6 +29,14 @@ const Hero = () => {
           </p>
           <Button color="primary" className='md:hidden block font-semibold' size='sm'>Join the Movement</Button>
           <Button color="primary" className='md:block hidden font-semibold' size='md'>Join the Movement</Button>
+
+          <AvatarGroup isBordered>
+      <Avatar src="https://i.pravatar.cc/150?u=a042581f4e29026024d" />
+      <Avatar src="https://i.pravatar.cc/150?u=a04258a2462d826712d" />
+      <Avatar src="https://i.pravatar.cc/150?u=a042581f4e29026704d" />
+      <Avatar src="https://i.pravatar.cc/150?u=a04258114e29026302d" />
+  
+    </AvatarGroup>
         </div>
 
         <div className="p-5 xl:w-[45%] lg:w-[90%]">

@@ -1,10 +1,15 @@
 import React from "react";
-import {Navbar, NavbarBrand, NavbarContent, NavbarItem, NavbarMenuToggle, NavbarMenu, NavbarMenuItem, Link, Button} from "@nextui-org/react";
+import {Navbar, NavbarBrand, NavbarContent, NavbarItem, NavbarMenuToggle, NavbarMenu, NavbarMenuItem, Button} from "@nextui-org/react";
 import {Logo} from "./Logo.jsx";
+import { Link, useLocation } from "react-router-dom";
+
 
 
 export default function NavbarCompo() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  let {pathname} = useLocation()
+
+  
 
   const menuItems = [
     "Profile",
@@ -26,55 +31,56 @@ export default function NavbarCompo() {
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
           className="sm:hidden"
         />
-        <NavbarBrand>
+        <Link to={"/"}><NavbarBrand>
           <Logo />
           <p className="font-bold text-inherit">Passthefood</p>
-        </NavbarBrand>
+        </NavbarBrand></Link>
       </NavbarContent>
 
       <NavbarContent className="hidden sm:flex gap-8" justify="center">
       
        <NavbarItem>
-       <a href="#">
-       Home</a>
+         <Link to={"/"}>Home</Link>
         </NavbarItem>
 
-        <NavbarItem>
-          <a href="#about">
-          About Us
-          </a>
-        </NavbarItem>
+        {pathname !== "/login" && pathname !== "/signup" && (
+  <>
+    <NavbarItem>
+      <a href="#about">About Us</a>
+    </NavbarItem>
 
-     
-        <NavbarItem>
-          
-       <a href="#partner">
-       Contributor
-       </a>
-          
-        </NavbarItem>
-       
-        <NavbarItem>
-          <a href="#contact">Contact Us</a>
-        </NavbarItem>
+    <NavbarItem>
+      <a href="#partner">Contributor</a>
+    </NavbarItem>
+
+    <NavbarItem>
+      <a href="#contact">Contact Us</a>
+    </NavbarItem>
+  </>
+)}
+
+
+
       </NavbarContent>
       <NavbarContent justify="end">
         <NavbarItem className="hidden lg:flex">
-          <Link href="#">Login</Link>
+           <Link to={"/login"} className="text-primary">Login</Link>
         </NavbarItem>
-        <NavbarItem>
-          <Button className="md:block hidden" color="primary">
-            Sign Up
-          </Button>
-          <Button size="sm" className="block md:hidden" color="primary">
-            Sign Up
-          </Button>
-        </NavbarItem>
+
+       
+    <NavbarItem>
+    <Button className="font-semibold" size="sm" color="primary"> <Link to="/signup">
+    Sign Up
+        </Link></Button>
+   
+    </NavbarItem>
+
+
       </NavbarContent>
       <NavbarMenu>
         {menuItems.map((item, index) => (
           <NavbarMenuItem key={`${item}-${index}`}>
-            <Link
+            <Link 
               color={
                 index === 2 ? "primary" : index === menuItems.length - 1 ? "danger" : "foreground"
               }

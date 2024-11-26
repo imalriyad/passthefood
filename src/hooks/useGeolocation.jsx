@@ -18,7 +18,7 @@ const useGeolocation = () => {
             getAddressFromCoordinates(latitude, longitude);
           },
           (err) => {
-            console.error("Error getting location:", err.message);
+            // console.error("Error getting location:", err.message);
             setError("Failed to get location: " + err.message);
           },
           {

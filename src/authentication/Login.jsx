@@ -1,37 +1,88 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { Link, useNavigate } from "react-router-dom";
+import UseAllContext from "../hooks/UseAllContext";
+import ModalCompo from "../utils/ModalCompo";
 const Login = () => {
     const [isShowPass, setShowPass] = useState(false)
+    const { register, handleSubmit,formState: { errors }, reset } = useForm();
+    const {user,login,setMessage,setTitle,setIsOpen,setSuccess } = UseAllContext()
+    const navigate = useNavigate()
+
+   console.log(user);
+   
+
+    const onSubmit = (data) => {
+      console.log(data);
+      
+      const email = data.email;
+      const password = data.password;
+     console.log(user?.emailVerified);
+    
+     if(user?.emailVerified === false){
+      setSuccess(false)
+          setTitle("Login Faild");
+          setMessage("Please verify your email before logging in") 
+          setIsOpen(true);
+          return
+     }
+
+      login(email, password)
+        .then((user) => {
+          reset()
+          navigate("/")
+
+        })
+        .catch((error) => {
+          setSuccess(false)
+          setTitle("Login Faild");
+          setMessage(error.message.replace('Firebase: ', '')); 
+          setIsOpen(true); 
+        });
+    };
+    
+
+
+
     return (
       <>
         <div className="lg:flex max-w-screen-xl items-center px-5 lg:flex-row-reverse justify-between mx-auto">
           <div className="lg:w-[50%] drop-shadow lg:p-8 rounded-lg max-w-screen-md mx-auto">
             <h2 className="text-2xl font-bold text-center mb-6">Sign In</h2>
-            <form className="space-y-4">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
               <input
+              
                 type="email"
                 placeholder="Email"
                 className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-              />
+                {...register("email", { required: true })}
+                />
+                {errors.email && (
+                  <span className="text-sm text-red-500">Email is required.</span>
+                )}
 
               <div className="relative">
-                <input
-                  type={isShowPass ? "text" : "password"}
-                  placeholder="Password"
-                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                />
-                {isShowPass ? (
-                  <i
-                    onClick={() => setShowPass(!isShowPass)}
-                    className="fas fa-eye-slash absolute right-3 top-3 text-gray-500 cursor-pointer"
-                  ></i>
-                ) : (
-                  <i
-                    onClick={() => setShowPass(!isShowPass)}
-                    className="fas fa-eye absolute right-3 top-3 text-gray-500 cursor-pointer"
-                  ></i>
-                )}
-              </div>
+              <input
+              {...register("password", { required: true })}
+              type={isShowPass ? "text" : "password"}
+              placeholder="Password"
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+            />
+            {isShowPass ? (
+              <i
+                onClick={() => setShowPass(!isShowPass)}
+                className="fas fa-eye-slash absolute right-3 top-3 text-gray-500 cursor-pointer"
+              ></i>
+            ) : (
+              <i
+                onClick={() => setShowPass(!isShowPass)}
+                className="fas fa-eye absolute right-3 top-3 text-gray-500 cursor-pointer"
+              ></i>
+            )}
+          </div>
+          {errors.password && (
+            <span className="text-sm text-red-500">Password is required.</span>
+          )}
               <button
                 type="submit"
                 className="w-full bg-primary text-white py-2 rounded-lg font-semibold hover:bg-primary"
@@ -65,6 +116,7 @@ const Login = () => {
               alt=""
             />
           </div>
+          <ModalCompo></ModalCompo>
         </div>
       </>
     );

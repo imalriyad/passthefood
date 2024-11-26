@@ -1,14 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import useGeolocation from "../hooks/useGeolocation";
 import { useForm } from "react-hook-form";
-import { useAuth0 } from "@auth0/auth0-react";
+import UseAllContext from "../hooks/UseAllContext";
+import { sendEmailVerification } from "firebase/auth";
+import auth from "./firebase.config";
+import ModalCompo from "../utils/ModalCompo";
 
 const Signup = () => {
   const [isShowPass, setShowPass] = useState(false);
   const { location } = useGeolocation();
-  const {loginWithRedirect} = useAuth0()
-  
+  const {registeration,setMessage,setTitle,setIsOpen,setSuccess } = UseAllContext()
+
 
   const {
     register,
@@ -21,13 +24,43 @@ const Signup = () => {
       accountType: "", // Ensure it is empty initially
     },
   });
-
   // Watch the accountType value
   const accountType = watch("accountType");
-
+  
   const onSubmit = (data) => {
-    console.log(data);
+    const email = data.email;
+    const password = data.password;
+  
+    registeration(email, password)
+      .then((user) => {
+        if (!user?.emailVerified) {
+          sendEmailVerification(auth.currentUser)
+            .then(() => {
+              reset()
+              setSuccess(true)
+              setTitle(`A verification email has been sent to "${email}"`);
+              setMessage("Please check your inbox or spam folder for the email.");
+              setIsOpen(true); // Trigger modal on success
+            })
+            .catch((error) => {
+              console.error("Error sending verification email:", error.message);
+              setTitle("Verification Failed");
+              setSuccess(false)
+              setMessage("There was an error while sending the verification email. Please try again.");
+              setIsOpen(true); // Trigger modal on error
+            });
+        }
+      })
+      .catch((error) => {
+        reset()
+        setSuccess(false)
+        setTitle("Account Creation Failed");
+        setMessage(error.message.replace('Firebase: ', '')); 
+        setIsOpen(true); 
+      });
   };
+  
+ 
 
   return (
     <div className="lg:flex max-w-screen-xl px-5 lg:flex-row-reverse justify-between mx-auto">
@@ -68,7 +101,7 @@ const Signup = () => {
           <select
             {...register("accountType", { required: true })}
             value={accountType || ""} // Control the value here
-            className="w-full px-4 py-2 border rounded-lg focus:outline-none text-gray-500 focus:ring-2 focus:ring-primary"
+            className="w-full px-4 py-2 border bg-white rounded-lg focus:outline-none text-gray-500 focus:ring-2 focus:ring-primary"
           >
             <option value="" disabled className="text-gray-300">
               Account Type
@@ -91,9 +124,10 @@ const Signup = () => {
 
           <input
             type="text"
-            {...register("address", { required: true })}
+            onChange={(e)=> setAddress(e.target.value)}
+            {...register("address", { required: false })}
             placeholder="Address"
-            value={location?.address}
+            defaultValue={location?.address}
             className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
           />
           {errors.address && (
@@ -125,6 +159,7 @@ const Signup = () => {
 
           <button
             type="submit"
+            
             className="w-full bg-primary text-white py-2 rounded-lg font-semibold hover:bg-primary"
           >
             Signup
@@ -141,11 +176,11 @@ const Signup = () => {
           <span className="mx-2 text-gray-400">Or</span>
           <hr className="flex-grow border-gray-300" />
         </div>
-        {/* <button className="w-full bg-primary text-white py-2 rounded-lg font-semibold flex items-center justify-center hover:bg-primary mb-2">
+        <button className="w-full bg-primary text-white py-2 rounded-lg font-semibold flex items-center justify-center hover:bg-primary mb-2">
           <i className="fab fa-facebook-f mr-2"></i> Login with Facebook
-        </button> */}
+        </button>
         <button
-          onClick={() => loginWithRedirect()}
+         
           className="w-full bg-primary text-white py-2 rounded-lg font-semibold flex items-center justify-center border hover:bg-primary"
         >
           <i className="fab fa-google mr-2"></i> Login with Google
@@ -159,7 +194,9 @@ const Signup = () => {
           alt=""
         />
       </div>
+      <ModalCompo />
     </div>
+    
   );
 };
 

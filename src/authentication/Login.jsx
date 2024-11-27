@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import UseAllContext from "../hooks/UseAllContext";
 import ModalCompo from "../utils/ModalCompo";
+import SocialLogin from "./SocialLogin";
 const Login = () => {
     const [isShowPass, setShowPass] = useState(false)
     const { register, handleSubmit,formState: { errors }, reset } = useForm();
@@ -30,7 +31,7 @@ const Login = () => {
       login(email, password)
         .then((user) => {
           reset()
-          navigate("/")
+          navigate("/dashboard");
 
         })
         .catch((error) => {
@@ -38,6 +39,7 @@ const Login = () => {
           setTitle("Login Faild");
           setMessage(error.message.replace('Firebase: ', '')); 
           setIsOpen(true); 
+          
         });
     };
     
@@ -51,38 +53,39 @@ const Login = () => {
             <h2 className="text-2xl font-bold text-center mb-6">Sign In</h2>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
               <input
-              
                 type="email"
                 placeholder="Email"
                 className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                 {...register("email", { required: true })}
-                />
-                {errors.email && (
-                  <span className="text-sm text-red-500">Email is required.</span>
-                )}
+              />
+              {errors.email && (
+                <span className="text-sm text-red-500">Email is required.</span>
+              )}
 
               <div className="relative">
-              <input
-              {...register("password", { required: true })}
-              type={isShowPass ? "text" : "password"}
-              placeholder="Password"
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-            />
-            {isShowPass ? (
-              <i
-                onClick={() => setShowPass(!isShowPass)}
-                className="fas fa-eye-slash absolute right-3 top-3 text-gray-500 cursor-pointer"
-              ></i>
-            ) : (
-              <i
-                onClick={() => setShowPass(!isShowPass)}
-                className="fas fa-eye absolute right-3 top-3 text-gray-500 cursor-pointer"
-              ></i>
-            )}
-          </div>
-          {errors.password && (
-            <span className="text-sm text-red-500">Password is required.</span>
-          )}
+                <input
+                  {...register("password", { required: true })}
+                  type={isShowPass ? "text" : "password"}
+                  placeholder="Password"
+                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                />
+                {isShowPass ? (
+                  <i
+                    onClick={() => setShowPass(!isShowPass)}
+                    className="fas fa-eye-slash absolute right-3 top-3 text-gray-500 cursor-pointer"
+                  ></i>
+                ) : (
+                  <i
+                    onClick={() => setShowPass(!isShowPass)}
+                    className="fas fa-eye absolute right-3 top-3 text-gray-500 cursor-pointer"
+                  ></i>
+                )}
+              </div>
+              {errors.password && (
+                <span className="text-sm text-red-500">
+                  Password is required.
+                </span>
+              )}
               <button
                 type="submit"
                 className="w-full bg-primary text-white py-2 rounded-lg font-semibold hover:bg-primary"
@@ -92,8 +95,8 @@ const Login = () => {
             </form>
             <p className="text-center text-gray-600 mt-4">
               Already have an account?{" "}
-              <Link to={"/signup"} className="text-primary">
-                Signup
+              <Link to={"/registration"} className="text-primary">
+                Registration
               </Link>
             </p>
             <div className="flex items-center my-4">
@@ -101,12 +104,7 @@ const Login = () => {
               <span className="mx-2 text-gray-400">Or</span>
               <hr className="flex-grow border-gray-300" />
             </div>
-            <button className="w-full bg-primary text-white py-2 rounded-lg font-semibold flex items-center justify-center hover:bg-primary mb-2">
-              <i className="fab fa-facebook-f mr-2"></i> Login with Facebook
-            </button>
-            <button className="w-full bg-primary text-white py-2 rounded-lg font-semibold flex items-center justify-center border hover:bg-primary">
-              <i className="fab fa-google mr-2"></i> Login with Google
-            </button>
+            <SocialLogin></SocialLogin>
           </div>
 
           <div className="lg:w-[50%] py-10 ">

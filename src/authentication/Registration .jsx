@@ -6,8 +6,9 @@ import UseAllContext from "../hooks/UseAllContext";
 import { sendEmailVerification } from "firebase/auth";
 import auth from "./firebase.config";
 import ModalCompo from "../utils/ModalCompo";
+import SocialLogin from "./SocialLogin";
 
-const Signup = () => {
+const Registration  = () => {
   const [isShowPass, setShowPass] = useState(false);
   const { location } = useGeolocation();
   const {registeration,setMessage,setTitle,setIsOpen,setSuccess } = UseAllContext()
@@ -41,6 +42,7 @@ const Signup = () => {
               setTitle(`A verification email has been sent to "${email}"`);
               setMessage("Please check your inbox or spam folder for the email.");
               setIsOpen(true); // Trigger modal on success
+               navigate("/login");
             })
             .catch((error) => {
               console.error("Error sending verification email:", error.message);
@@ -65,7 +67,7 @@ const Signup = () => {
   return (
     <div className="lg:flex max-w-screen-xl px-5 lg:flex-row-reverse justify-between mx-auto">
       <div className="lg:w-[50%] drop-shadow lg:p-8 rounded-lg max-w-screen-md mx-auto">
-        <h2 className="text-2xl font-bold text-center mb-6">Signup</h2>
+        <h2 className="text-2xl font-bold text-center mb-6">Registration</h2>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <input
             type="text"
@@ -124,7 +126,7 @@ const Signup = () => {
 
           <input
             type="text"
-            onChange={(e)=> setAddress(e.target.value)}
+            onChange={(e) => setAddress(e.target.value)}
             {...register("address", { required: false })}
             placeholder="Address"
             defaultValue={location?.address}
@@ -159,7 +161,6 @@ const Signup = () => {
 
           <button
             type="submit"
-            
             className="w-full bg-primary text-white py-2 rounded-lg font-semibold hover:bg-primary"
           >
             Signup
@@ -176,15 +177,7 @@ const Signup = () => {
           <span className="mx-2 text-gray-400">Or</span>
           <hr className="flex-grow border-gray-300" />
         </div>
-        <button className="w-full bg-primary text-white py-2 rounded-lg font-semibold flex items-center justify-center hover:bg-primary mb-2">
-          <i className="fab fa-facebook-f mr-2"></i> Login with Facebook
-        </button>
-        <button
-         
-          className="w-full bg-primary text-white py-2 rounded-lg font-semibold flex items-center justify-center border hover:bg-primary"
-        >
-          <i className="fab fa-google mr-2"></i> Login with Google
-        </button>
+       <SocialLogin></SocialLogin>
       </div>
 
       <div className="lg:w-[50%] lg:h-[100vh] lg:py-20 py-8">
@@ -196,8 +189,8 @@ const Signup = () => {
       </div>
       <ModalCompo />
     </div>
-    
   );
 };
 
-export default Signup;
+export default Registration;
+

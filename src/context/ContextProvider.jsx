@@ -1,7 +1,7 @@
 import { createContext, useEffect, useState } from 'react';
 export const AllContext = createContext(null)
 import auth from '../authentication/firebase.config';
-import { createUserWithEmailAndPassword, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 
 
 const ContextProvider = ({children}) => {
@@ -11,7 +11,7 @@ const ContextProvider = ({children}) => {
     const [message, setMessage] = useState('');
     const [isOpen, setIsOpen] = useState(false);
     const [isSuccess , setSuccess ] = useState(false);
-
+   const [isSidebarOpen, setSidebarOpen] = useState(true);
 
     const registeration = (email, password) => {
       setLoading(true);
@@ -26,6 +26,14 @@ const ContextProvider = ({children}) => {
     const googleLogin = () => {
       const googleAuthProvider = new GoogleAuthProvider();
       return signInWithPopup(auth, googleAuthProvider);
+  };
+  
+  // const facebookLogin = () => {
+  //   const facebookProvider = new FacebookAuthProvider()
+  //   return signInWithPopup(auth,facebookProvider)
+  //  }
+    const toggleSidebar = () => {
+      setSidebarOpen(!isSidebarOpen);
     };
   
     const passwordReset = (email) => {
@@ -56,12 +64,15 @@ const ContextProvider = ({children}) => {
       user,
       title,
       setTitle,
-      message, 
+      message,
       setMessage,
-      setIsOpen, 
+      setIsOpen,
       isOpen,
       setSuccess,
-      isSuccess 
+      isSuccess,
+      isSidebarOpen,
+      setSidebarOpen,
+      toggleSidebar,
     };
 
     return (

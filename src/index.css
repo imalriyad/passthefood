@@ -43,6 +43,9 @@ header {
      font-weight: 500;
  }
 
-
+.sidemenu a.active {
+  background-color: #22c55e;
+  color: white;
+}
 
 

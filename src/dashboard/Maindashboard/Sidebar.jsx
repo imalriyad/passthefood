@@ -1,3 +1,5 @@
+import { NavLink } from "react-router-dom";
+import { Logo } from "../../components/header/Logo";
 import UseAllContext from "../../hooks/UseAllContext";
 
 const Sidebar = () => {
@@ -8,42 +10,67 @@ const Sidebar = () => {
 
   return (
     <div
-      className={`bg-slate-600 text-white h-screen fixed lg:relative transition-all duration-300 ${
-        isSidebarOpen ? "-translate-x-full w-0" : "translate-x-0 w-56 p-4 z-30"
+      className={`bg-white border-r-1 h-screen fixed lg:relative transition-all duration-300 ${
+        !isSidebarOpen ? "-translate-x-full w-0" : "translate-x-0 w-56 p-4 z-30"
       }`}
     >
-      <div className="flex items-center justify-between">
-        <div className="text-2xl font-bold mb-8">Passthefood</div>
+      {" "}
+      <div className="md:text-xl flex justify-between items-center text-sm font-bold mb-8">
+        {" "}
+        <div className="flex items-center">
+          <Logo />
+          <p className="font-bold text-inherit">Passthefood</p>
+        </div>
         <i
-          className="fas fa-bars text-white lg:hidden block mr-4 mb-8 cursor-pointer"
+          className="fas fa-bars text-gray-600  lg:hidden block mr-4 cursor-pointer"
           onClick={toggleSidebar}
         ></i>
       </div>
+      {isSidebarOpen ? (
+        <div className="sidemenu">
+          <NavLink
+            className={
+              "rounded-lg px-4 gap-3 font-bold w-full mb-4 py-2 flex items-center"
+            }
+            to={"overview"}
+          >
+            <i className="fas fa-chart-pie text-xl"></i>
+            Overview
+          </NavLink>
 
-      <div className="mb-4">
-        <div className="flex items-center justify-center">
-          <div className="bg-primary text-white rounded-lg px-6 w-full py-3 flex items-center space-x-3">
-            <i className="fas fa-chart-pie text-xl "></i>
-            <span className="font-roboto text-md font-bold">Dashboard</span>
-          </div>
+          <NavLink
+            className={
+              "rounded-lg px-4 gap-3 font-bold w-full mb-4 py-2 flex items-center"
+            }
+            to={"manage-user"}
+          >
+            <i className="fas fa-user-check text-xl"></i>
+            Manage Users
+          </NavLink>
+
+          <NavLink
+            className={
+              "rounded-lg px-4 gap-3 font-bold w-full mb-4 py-2 flex items-center"
+            }
+            to={"donation"}
+          >
+            <i className="fa-solid fa-hand-holding-medical text-xl"></i>
+            Donation
+          </NavLink>
+
+          <NavLink
+            className={
+              "rounded-lg px-4 gap-3 font-bold w-full mb-4 py-2 flex items-center"
+            }
+            to={"analytics"}
+          >
+            <i class="fa-solid fa-chart-line text-xl"></i>
+            Analytics
+          </NavLink>
         </div>
-      </div>
-      <div className="mb-4">
-        <div className="flex items-center justify-center">
-          <div className="bg-primary text-white rounded-lg px-6 w-full py-3 flex items-center space-x-3">
-            <i className="fas fa-chart-pie text-xl"></i>
-            <span className="font-roboto text-md font-bold">Dashboard</span>
-          </div>
-        </div>
-      </div>
-      <div className="mb-4">
-        <div className="flex items-center justify-center">
-          <div className="bg-primary text-white rounded-lg px-6 w-full py-3 flex items-center space-x-3">
-            <i className="fas fa-chart-pie text-xl"></i>
-            <span className="font-roboto text-md font-bold">Dashboard</span>
-          </div>
-        </div>
-      </div>
+      ) : (
+        ""
+      )}
     </div>
   );
 };

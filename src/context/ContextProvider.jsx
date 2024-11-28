@@ -11,7 +11,7 @@ const ContextProvider = ({children}) => {
     const [message, setMessage] = useState('');
     const [isOpen, setIsOpen] = useState(false);
     const [isSuccess , setSuccess ] = useState(false);
-   const [isSidebarOpen, setSidebarOpen] = useState(true);
+    const [isSidebarOpen, setSidebarOpen] = useState(true);
 
     const registeration = (email, password) => {
       setLoading(true);

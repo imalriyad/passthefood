@@ -19,10 +19,10 @@ const Sidebar = () => {
         {" "}
         <div className="flex items-center">
           <Logo />
-          <p className="font-bold text-inherit">Passthefood</p>
+          <p className="font-bold text-lg">Passthefood</p>
         </div>
         <i
-          className="fas fa-bars text-gray-600  lg:hidden block mr-4 cursor-pointer"
+          className="fas fa-bars text-gray-600 text-xl lg:hidden block mr-4 cursor-pointer"
           onClick={toggleSidebar}
         ></i>
       </div>

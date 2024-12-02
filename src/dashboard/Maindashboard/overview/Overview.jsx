@@ -1,9 +1,12 @@
 import React from 'react';
 import RecentDonation from './RecentDonation';
+import RecentUsers from './RecentUsers';
+import { Button } from '@nextui-org/react';
+import LastDonationsChart from './LastDonationsChart';
 
 const Overview = () => {
     return (
-      <div>
+      <div className='overflow-x-hidden'>
         <div className="p-4 md:p-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
             <div className="bg-white p-4 rounded-lg shadow-md flex items-center">
@@ -44,15 +47,49 @@ const Overview = () => {
             </div>
           </div>
           <div >
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-xl font-bold">Recent Donations</h2>
-              <div>
-                <button className=" bg-primary text-white px-3 py-1 rounded-md">
-                  Print
-                </button>
-              </div>
+          <div className='grid xl:grid-cols-2 grid-cols-1 w-full gap-6 items-start mb-4'>
+
+         {/*Recent Donations  */}
+          <div className='flex flex-col w-full bg-white p-4 rounded-lg shadow-md  items-center'>
+          <div className='flex items-start justify-between w-full'>
+         <h2 className="text-xl font-bold w-full  mb-4">Recent Donations</h2>
+         <Button onClick={()=>window.print()} size='sm' color='primary'>Print</Button>
+         </div>
+         <RecentDonation></RecentDonation>
+          </div>
+
+          {/* Last 7 days donation charts */}
+          <div className='flex flex-col w-full bg-white p-4 rounded-lg shadow-md  items-center'>
+         <div className='flex items-start justify-between w-full'>
+         <h2 className="text-xl font-bold w-full  mb-4">Top Contributor</h2>
+         <Button onClick={()=>window.print()} size='sm' color='primary'>Print</Button>
+         </div>
+          <LastDonationsChart></LastDonationsChart>
+          </div>
+
+
+         {/* Recent Users */}
+          <div className='flex flex-col w-full bg-white p-4 rounded-lg shadow-md  items-center'>
+         <div className='flex items-start justify-between w-full'>
+         <h2 className="text-xl font-bold w-full  mb-4">Recent Users</h2>
+         <Button onClick={()=>window.print()} size='sm' color='primary'>Print</Button>
+         </div>
+         <RecentUsers></RecentUsers>
+          </div>
+
+
+        {/* Top Contributor */}
+          <div className='flex flex-col w-full bg-white p-4 rounded-lg shadow-md  items-center'>
+         <div className='flex items-start justify-between w-full'>
+         <h2 className="text-xl font-bold w-full  mb-4">Top Contributor</h2>
+         <Button onClick={()=>window.print()} size='sm' color='primary'>Print</Button>
+         </div>
+         <RecentDonation></RecentDonation>
+          </div>
+
+       
+
             </div>
-            <RecentDonation></RecentDonation>
           </div>
         </div>
       </div>
@@ -60,3 +97,5 @@ const Overview = () => {
 };
 
 export default Overview;
+
+        

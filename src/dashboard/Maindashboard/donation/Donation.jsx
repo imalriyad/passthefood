@@ -17,7 +17,7 @@ const Donation = () => {
                </div>
                <div>
                 <Button color="primary" onClick={()=>setIsOpen(true)} className="font-semibold md:block hidden">Donate Food</Button>
-                <Button color="primary" size="sm" className="font-semibold md:hidden block">Donate Food</Button>
+                <Button color="primary" onClick={()=>setIsOpen(true)}  size="sm" className="font-semibold md:hidden block">Donate Food</Button>
                </div>
             </div>
             <FoodCard></FoodCard>

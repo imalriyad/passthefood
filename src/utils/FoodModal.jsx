@@ -8,7 +8,7 @@ const FoodModal = () => {
 
     return (
         <>
-     <Modal size={"md"} isOpen={isOpen} onClose={onClose}>
+     <Modal size={"lg"} isOpen={isOpen} onClose={onClose}>
       <ModalContent>
         <ModalHeader className="flex flex-col gap-1 ">Donate Food</ModalHeader>
         <ModalBody >

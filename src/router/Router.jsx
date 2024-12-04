@@ -7,6 +7,7 @@ import Dashboard from "../dashboard/Maindashboard/Dashboard";
 import Overview from "../dashboard/Maindashboard/overview/Overview";
 import ManageUser from "../dashboard/Maindashboard/manageuser/ManageUser";
 import Donation from "../dashboard/Maindashboard/donation/Donation";
+import Analytics from "../dashboard/Maindashboard/analytics/Analytics";
 
 
   const router = createBrowserRouter([
@@ -46,7 +47,7 @@ import Donation from "../dashboard/Maindashboard/donation/Donation";
         },
         {
           path: "analytics",
-          element: <h1>analytics </h1>,
+          element: <Analytics></Analytics>
         },
       ],
     },

@@ -3,6 +3,7 @@ import RecentDonation from './RecentDonation';
 import RecentUsers from './RecentUsers';
 import { Button } from '@nextui-org/react';
 import LastDonationsChart from './LastDonationsChart';
+import TopContributor from './TopContributor';
 
 const Overview = () => {
     return (
@@ -61,7 +62,7 @@ const Overview = () => {
           {/* Last 7 days donation charts */}
           <div className='flex flex-col w-full bg-white p-4 rounded-lg shadow-md  items-center'>
          <div className='flex items-start justify-between w-full'>
-         <h2 className="text-xl font-bold w-full  mb-4">Top Contributor</h2>
+         <h2 className="text-xl font-bold w-full  mb-4">Donations (Last 7 Days)</h2>
          <Button onClick={()=>window.print()} size='sm' color='primary'>Print</Button>
          </div>
           <LastDonationsChart></LastDonationsChart>
@@ -84,7 +85,7 @@ const Overview = () => {
          <h2 className="text-xl font-bold w-full  mb-4">Top Contributor</h2>
          <Button onClick={()=>window.print()} size='sm' color='primary'>Print</Button>
          </div>
-         <RecentDonation></RecentDonation>
+   <TopContributor></TopContributor>
           </div>
 
        

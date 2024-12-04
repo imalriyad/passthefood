@@ -5,6 +5,8 @@ import Login from "../authentication/Login";
 import Registration from "../authentication/registration ";
 import Dashboard from "../dashboard/Maindashboard/Dashboard";
 import Overview from "../dashboard/Maindashboard/overview/Overview";
+import ManageUser from "../dashboard/Maindashboard/manageuser/ManageUser";
+import Donation from "../dashboard/Maindashboard/donation/Donation";
 
 
   const router = createBrowserRouter([
@@ -36,11 +38,11 @@ import Overview from "../dashboard/Maindashboard/overview/Overview";
         },
         {
           path: "manage-user",
-          element: <h1>manage-user</h1>,
+          element: <ManageUser></ManageUser>
         },
         {
           path: "donation",
-          element: <h1>donation </h1>,
+          element: <Donation></Donation>
         },
         {
           path: "analytics",

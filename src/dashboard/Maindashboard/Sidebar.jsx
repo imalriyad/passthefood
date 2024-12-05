@@ -4,7 +4,7 @@ import UseAllContext from "../../hooks/UseAllContext";
 
 const Sidebar = () => {
     const { isSidebarOpen, toggleSidebar } = UseAllContext();
-    console.log(isSidebarOpen);
+
     
 
 

@@ -4,6 +4,8 @@ import { Link, useNavigate } from "react-router-dom";
 import UseAllContext from "../hooks/UseAllContext";
 import ModalCompo from "../utils/ModalCompo";
 import SocialLogin from "./SocialLogin";
+
+
 const Login = () => {
     const [isShowPass, setShowPass] = useState(false)
     const { register, handleSubmit,formState: { errors }, reset } = useForm();
@@ -52,6 +54,8 @@ const Login = () => {
           <div className="lg:w-[50%] drop-shadow lg:p-8 rounded-lg max-w-screen-md mx-auto">
             <h2 className="text-2xl font-bold text-center mb-6">Sign In</h2>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+         
+
               <input
                 type="email"
                 placeholder="Email"

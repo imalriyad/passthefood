@@ -7,6 +7,8 @@ import { sendEmailVerification } from "firebase/auth";
 import auth from "./firebase.config";
 import ModalCompo from "../utils/ModalCompo";
 import SocialLogin from "./SocialLogin";
+import {Select, SelectItem} from "@nextui-org/react";
+
 
 const Registration  = () => {
   const [isShowPass, setShowPass] = useState(false);
@@ -19,19 +21,16 @@ const Registration  = () => {
     handleSubmit,
     formState: { errors },
     reset,
-    watch, // Watch the form field
   } = useForm({
-    defaultValues: {
-      accountType: "", // Ensure it is empty initially
-    },
+    
   });
-  // Watch the accountType value
-  const accountType = watch("accountType");
+ 
   
   const onSubmit = (data) => {
     const email = data.email;
     const password = data.password;
-  
+    
+    
     registeration(email, password)
       .then((user) => {
         if (!user?.emailVerified) {
@@ -62,7 +61,15 @@ const Registration  = () => {
       });
   };
   
- 
+  const AccountType = [
+    { key: 1, label: "Charity" },
+    { key: 2, label: "Personal" },
+    { key: 3, label: "Business" },
+  ];
+  
+
+
+
 
   return (
     <div className="lg:flex max-w-screen-xl px-5 lg:flex-row-reverse justify-between mx-auto">
@@ -100,29 +107,22 @@ const Registration  = () => {
             <span className="text-sm text-red-500">Number is required.</span>
           )}
 
-          <select
-            {...register("accountType", { required: true })}
-            value={accountType || ""} // Control the value here
-            className="w-full px-4 py-2 border bg-white rounded-lg focus:outline-none text-gray-500 focus:ring-2 focus:ring-primary"
-          >
-            <option value="" disabled className="text-gray-300">
-              Account Type
-            </option>
-            <option value="charity" className="text-black">
-              Charity
-            </option>
-            <option value="personal" className="text-black">
-              Personal
-            </option>
-            <option value="business" className="text-black">
-              Business
-            </option>
-          </select>
-          {errors.accountType && (
+
+<Select {...register("accountType", { required: true })}
+ size={"sm"} label="Account Type" className="w-full rounded-lg">
+  {AccountType?.map((type) => (
+    <SelectItem key={type.label.toLocaleLowerCase()} value={type.label.toLocaleLowerCase()}>
+      {type.label}
+    </SelectItem>
+  ))}
+</Select>
+{errors.accountType && (
             <span className="text-sm text-red-500">
               Account Type is required.
             </span>
           )}
+
+
 
           <input
             type="text"

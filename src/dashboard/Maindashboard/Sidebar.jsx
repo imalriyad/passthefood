@@ -64,7 +64,7 @@ const Sidebar = () => {
             }
             to={"analytics"}
           >
-            <i class="fa-solid fa-chart-line text-xl"></i>
+            <i className="fa-solid fa-chart-line text-xl"></i>
             Analytics
           </NavLink>
         </div>

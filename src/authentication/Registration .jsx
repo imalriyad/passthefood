@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import useGeolocation from "../hooks/useGeolocation";
 import { useForm } from "react-hook-form";
@@ -7,69 +7,64 @@ import { sendEmailVerification } from "firebase/auth";
 import auth from "./firebase.config";
 import ModalCompo from "../utils/ModalCompo";
 import SocialLogin from "./SocialLogin";
-import {Select, SelectItem} from "@nextui-org/react";
+import { Select, SelectItem } from "@nextui-org/react";
 
-
-const Registration  = () => {
+const Registration = () => {
   const [isShowPass, setShowPass] = useState(false);
   const { location } = useGeolocation();
-  const {registeration,setMessage,setTitle,setIsOpen,setSuccess } = UseAllContext()
-
+  const { registeration, setMessage, setTitle, setIsOpen, setSuccess } =
+    UseAllContext();
 
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm({
-    
-  });
- 
-  
+  } = useForm({});
+
   const onSubmit = (data) => {
     const email = data.email;
     const password = data.password;
-    
-    
+
     registeration(email, password)
       .then((user) => {
         if (!user?.emailVerified) {
           sendEmailVerification(auth.currentUser)
             .then(() => {
-              reset()
-              setSuccess(true)
+              reset();
+              setSuccess(true);
               setTitle(`A verification email has been sent to "${email}"`);
-              setMessage("Please check your inbox or spam folder for the email.");
+              setMessage(
+                "Please check your inbox or spam folder for the email."
+              );
               setIsOpen(true); // Trigger modal on success
-               navigate("/login");
+              navigate("/login");
             })
             .catch((error) => {
               console.error("Error sending verification email:", error.message);
               setTitle("Verification Failed");
-              setSuccess(false)
-              setMessage("There was an error while sending the verification email. Please try again.");
+              setSuccess(false);
+              setMessage(
+                "There was an error while sending the verification email. Please try again."
+              );
               setIsOpen(true); // Trigger modal on error
             });
         }
       })
       .catch((error) => {
-        reset()
-        setSuccess(false)
+        reset();
+        setSuccess(false);
         setTitle("Account Creation Failed");
-        setMessage(error.message.replace('Firebase: ', '')); 
-        setIsOpen(true); 
+        setMessage(error.message.replace("Firebase: ", ""));
+        setIsOpen(true);
       });
   };
-  
+
   const AccountType = [
     { key: 1, label: "Charity" },
     { key: 2, label: "Personal" },
     { key: 3, label: "Business" },
   ];
-  
-
-
-
 
   return (
     <div className="lg:flex max-w-screen-xl px-5 lg:flex-row-reverse justify-between mx-auto">
@@ -107,22 +102,26 @@ const Registration  = () => {
             <span className="text-sm text-red-500">Number is required.</span>
           )}
 
-
-<Select {...register("accountType", { required: true })}
- size={"sm"} label="Account Type" className="w-full rounded-lg">
-  {AccountType?.map((type) => (
-    <SelectItem key={type.label.toLocaleLowerCase()} value={type.label.toLocaleLowerCase()}>
-      {type.label}
-    </SelectItem>
-  ))}
-</Select>
-{errors.accountType && (
+          <Select
+            {...register("accountType", { required: true })}
+            size={"sm"}
+            label="Account Type"
+            className="w-full rounded-lg"
+          >
+            {AccountType?.map((type) => (
+              <SelectItem
+                key={type.label.toLocaleLowerCase()}
+                value={type.label.toLocaleLowerCase()}
+              >
+                {type.label}
+              </SelectItem>
+            ))}
+          </Select>
+          {errors.accountType && (
             <span className="text-sm text-red-500">
               Account Type is required.
             </span>
           )}
-
-
 
           <input
             type="text"
@@ -177,7 +176,7 @@ const Registration  = () => {
           <span className="mx-2 text-gray-400">Or</span>
           <hr className="flex-grow border-gray-300" />
         </div>
-       <SocialLogin></SocialLogin>
+        <SocialLogin></SocialLogin>
       </div>
 
       <div className="lg:w-[50%] lg:h-[100vh] lg:py-20 py-8">
@@ -193,4 +192,3 @@ const Registration  = () => {
 };
 
 export default Registration;
-

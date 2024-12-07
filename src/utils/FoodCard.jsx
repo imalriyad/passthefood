@@ -1,10 +1,18 @@
 import {Card, CardBody, CardFooter, Image,  Button,} from "@nextui-org/react";
 import { IoFastFoodSharp } from "react-icons/io5";
 import { FaLocationDot } from "react-icons/fa6";
+import { PiClockCountdownFill } from "react-icons/pi";
+import UseAllContext from "../hooks/UseAllContext";
+
 
 
 
 export default function FoodCard() {
+  const { setIsMessageModalOpen} = UseAllContext()
+
+
+  
+ 
   const list = [
     {
       title: "Orange",
@@ -64,18 +72,21 @@ export default function FoodCard() {
           </CardBody>
           <CardFooter className="text-small w-full flex flex-col">
             <div className="flex justify-between w-full">
-            <b className="flex items-center gap-1"><IoFastFoodSharp />
+            <b className="flex items-center gap-1 mb-2`"><IoFastFoodSharp />
             {item.title}</b>
             <p className="text-black font-medium mb-2">{item.price}</p>
             </div>
-            <div className="flex flex-col gap-2 text-left w-full">
+            <div className="flex flex-col gap-1 text-left w-full">
             <p className="flex items-center gap-1"><FaLocationDot />
              Banasree, Rampura, Dhaka</p>
-            <Button size="sm" color="primary" className="font-medium">View and collect <i class="fa-solid fa-hand-holding-medical"></i></Button>
+            <p className="flex items-center gap-1"><PiClockCountdownFill />Expire: <span className="text-danger font-bold">In 3 Hours</span></p>
+          
+            <Button onClick={()=>setIsMessageModalOpen(true)} size="sm" color="primary" className="font-medium">View and collect <i className="fa-solid fa-hand-holding-medical"></i></Button>
             </div>
           </CardFooter>
         </Card>
       ))}
+
     </div>
   );
 }

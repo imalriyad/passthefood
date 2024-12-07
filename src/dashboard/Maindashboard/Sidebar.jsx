@@ -1,6 +1,7 @@
 import { NavLink } from "react-router-dom";
 import { Logo } from "../../components/header/Logo";
 import UseAllContext from "../../hooks/UseAllContext";
+import { RiMessageFill } from "react-icons/ri";
 
 const Sidebar = () => {
     const { isSidebarOpen, toggleSidebar } = UseAllContext();
@@ -38,6 +39,15 @@ const Sidebar = () => {
           >
             <i className="fas fa-chart-pie text-xl"></i>
             Overview
+          </NavLink>
+          <NavLink
+            className={
+              "rounded-lg px-4 gap-3 font-bold w-full mb-4 py-2 flex items-center"
+            }
+            to={"inbox"}
+          >
+            <RiMessageFill className="text-2xl"/>
+            Messages
           </NavLink>
 
           <NavLink

@@ -39,6 +39,10 @@ import Analytics from "../dashboard/Maindashboard/analytics/Analytics";
           element: <Overview></Overview>
         },
         {
+          path: "inbox",
+          element: <Overview></Overview>
+        },
+        {
           path: "manage-user",
           element: <ManageUser></ManageUser>
         },

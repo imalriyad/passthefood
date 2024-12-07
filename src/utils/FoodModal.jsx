@@ -62,7 +62,7 @@ const FoodModal = () => {
       <Modal size={"md"} isOpen={isOpen} onClose={onClose}>
         <ModalContent>
           <ModalHeader className="flex flex-col gap-1 ">
-            Donate A Food Item
+            Donate Food
           </ModalHeader>
           <ModalBody>
             <form className="grid gap-4 grid-cols-2">

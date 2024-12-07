@@ -2,11 +2,10 @@ import { Button } from "@nextui-org/react";
 import FoodCard from "../../../utils/FoodCard";
 import UseAllContext from "../../../hooks/UseAllContext";
 import FoodModal from "../../../utils/FoodModal";
+import MessageModal from "../../../utils/MessageModal";
 
 const Donation = () => {
-    const {setIsOpen } = UseAllContext()
-   
-
+    const { setIsOpen } = UseAllContext()
 
     return (
 
@@ -21,7 +20,8 @@ const Donation = () => {
                </div>
             </div>
             <FoodCard></FoodCard>
-          <FoodModal></FoodModal>
+           <FoodModal></FoodModal>
+           <MessageModal></MessageModal>
         </div>
     );
 };

@@ -8,6 +8,7 @@ import Overview from "../dashboard/Maindashboard/overview/Overview";
 import ManageUser from "../dashboard/Maindashboard/manageuser/ManageUser";
 import Donation from "../dashboard/Maindashboard/donation/Donation";
 import Analytics from "../dashboard/Maindashboard/analytics/Analytics";
+import MainMessageCompo from "../components/message/MainMessageCompo";
 
 
 
@@ -40,7 +41,7 @@ import Analytics from "../dashboard/Maindashboard/analytics/Analytics";
         },
         {
           path: "inbox",
-          element: <Overview></Overview>
+          element: <MainMessageCompo></MainMessageCompo>
         },
         {
           path: "manage-user",

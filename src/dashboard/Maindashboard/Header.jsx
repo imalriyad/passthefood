@@ -1,4 +1,7 @@
+
 import UseAllContext from "../../hooks/UseAllContext"
+import NotificationPopUp from "../../utils/notification/NotificationPopUp";
+import ProfilePopUp from "../../utils/ProfilePopUp";
 
 const Header = () => {
     const { toggleSidebar } = UseAllContext()
@@ -11,14 +14,10 @@ const Header = () => {
             onClick={toggleSidebar}
           ></i>
         </div>
-        <div className="flex items-center">
-          <i className="fas fa-bell text-gray-600 text-xl mr-4"></i>
-          <img
-            src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Elon_Musk_Royal_Society_crop.jpg/800px-Elon_Musk_Royal_Society_crop.jpg"
-            alt="User avatar"
-            className="w-9 object-cover h-9 mr-2 rounded-full"
-       
-          />
+        <div className="flex gap-2 items-center">
+      
+         <NotificationPopUp></NotificationPopUp>
+          <ProfilePopUp></ProfilePopUp>
         </div>
       </div>
     );

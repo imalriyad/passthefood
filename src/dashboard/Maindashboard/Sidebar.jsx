@@ -10,12 +10,14 @@ const Sidebar = () => {
 
   return (
     <div
-      className={`bg-white border-r-1 h-screen fixed lg:relative transition-all duration-300 ${
+      className={`bg-white fixed border-r-1 h-screen lg:relative transition-all duration-300 ${
         !isSidebarOpen ? "-translate-x-full w-0" : "translate-x-0 w-56 p-4 z-30"
       }`}
     >
       {" "}
-      <div className="md:text-xl flex justify-between items-center text-sm font-bold mb-8">
+      <div
+        className={`md:text-xl flex justify-between items-center text-sm font-bold mb-8 ${!isSidebarOpen?"hidden":'flex'}`}
+      >
         {" "}
         <div className="flex items-center">
           <Logo />

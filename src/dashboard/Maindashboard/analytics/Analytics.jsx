@@ -18,7 +18,6 @@ const Analytics = () => {
     
       const labels = divisionData.map(item => item.division);
       const values = divisionData.map(item => item.donations);
-    
       const chartData = { labels, values };
 
     return (

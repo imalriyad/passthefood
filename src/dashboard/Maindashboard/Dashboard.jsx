@@ -14,15 +14,26 @@ const Dashboard = () => {
 
 
   return (
-    <div className="flex">
-      <Sidebar isOpen={isSidebarOpen} />
+    <div className="flex h-screen">
+      {/* Sidebar */}
+      <Sidebar isOpen={isSidebarOpen} className="fixed h-full" />
+
+      {/* Main Content */}
       <div
-        className={`flex-1 transition-all duration-300 ${
-          isSidebarOpen ? "z-0" : "z-10"
+        className={`flex flex-col flex-1 transition-all duration-300 ${
+          isSidebarOpen ? "ml-[width_of_sidebar]" : "ml-0"
         }`}
       >
-        <Header toggleSidebar={toggleSidebar} />
-        <Outlet></Outlet>
+        {/* Header */}
+        <Header
+          toggleSidebar={toggleSidebar}
+          className="fixed top-0 w-full z-10"
+        />
+
+        {/* Content with Scrollable Area */}
+        <div className="overflow-y-auto pt-[height_of_header] h-full">
+          <Outlet />
+        </div>
       </div>
     </div>
   );

@@ -49,7 +49,7 @@ export default function FoodCard() {
   ];
 
   return (
-    <div className="gap-2 grid grid-cols-1 xl:grid-cols-6 sm:grid-cols-4">
+    <div className="gap-2 grid grid-cols-1 xl:grid-cols-5  sm:grid-cols-4">
       {list.map((item, index) => (
         <Card shadow="sm" key={index} className="cursor-pointer">
           <CardBody className="overflow-visible p-0">

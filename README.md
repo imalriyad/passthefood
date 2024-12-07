@@ -44,27 +44,6 @@ Food safety guidelines for ensuring safe handling and storage of donations.
 Analytics and tracking for businesses and charities to monitor their impact.
 Sustainability reports to measure environmental benefits.
 
-Installation
-Clone the repository:
-
-bash
-Copy code
-git clone https://github.com/your-username/food-waste-redistribution-app.git
-Navigate to the project directory:
-
-bash
-Copy code
-cd food-waste-redistribution-app
-Install dependencies:
-
-bash
-Copy code
-npm install
-Start the development server:
-
-bash
-Copy code
-npm start
 
 Tech Stack
 Frontend: React.js, Context API (for state management)

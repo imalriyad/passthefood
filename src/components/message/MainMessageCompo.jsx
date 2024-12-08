@@ -1,28 +1,114 @@
 import { Input } from '@nextui-org/react';
-import React, { useState } from 'react';
 import { IoSend } from "react-icons/io5";
+import PersonsBar from './PersonsBar';
 
 
 const MainMessageCompo = () => {
-    const [isMessageSidebarOpen,setMessageSidebarOpen] = useState(true)
+    
 
     return (
-        <div className='flex w-full'>
-           <div className={`${isMessageSidebarOpen?"w-full":""} lg:w-[320px] w-full p-4 border-r h-[90vh] bg-white shadow-md`}>
-            <div className='flex items-center justify-between'>
-            <h1 className='text-2xl font-bold'>Inbox</h1>
-            <i
-            onClick={()=>setMessageSidebarOpen(!isMessageSidebarOpen)}
-            className="fas fa-bars text-gray-600 text-xl mr-4 cursor-pointer"
-           
-          ></i>
+      <div className="relative overflow-hidden  w-full">
+        <div className="flex relative w-full">
+          <PersonsBar></PersonsBar>
+
+          <div className="max-h-[80vh] w-full overflow-y-auto">
+            <div className="">
+              <h1>rhfwiufrkg</h1>
             </div>
-           </div>
-           <div className={`w-full relative lg:block hidden`}>
-             <Input variant='bordered'  size='lg' placeholder='Write down your message...' className='absolute bottom-0 left-2 w-[96%]'  type="text"></Input>
-             <IoSend className='absolute text-3xl text-gray-600 bottom-2 right-4 cursor-pointer' />
-           </div>
+            <div className="">
+              <h1>rhfwiufrkg</h1>
+            </div>
+            <div className="">
+              <h1>rhfwiufrkg</h1>
+            </div>
+            <div className="">
+              <h1>rhfwiufrkg</h1>
+            </div>
+            <div className="">
+              <h1>rhfwiufrkg</h1>
+            </div>
+            <div className="">
+              <h1>rhfwiufrkg</h1>
+            </div>
+            <div className="">
+              <h1>rhfwiufrkg</h1>
+            </div>
+            <div className="">
+              <h1>rhfwiufrkg</h1>
+            </div>
+            <div className="">
+              <h1>rhfwiufrkg</h1>
+            </div>
+            <div className="">
+              <h1>rhfwiufrkg</h1>
+            </div>
+            <div className="">
+              <h1>rhfwiufrkg</h1>
+            </div>
+            <div className="">
+              <h1>rhfwiufrkg</h1>
+            </div>
+            <div className="">
+              <h1>rhfwiufrkg</h1>
+            </div>
+            <div className="">
+              <h1>rhfwiufrkg</h1>
+            </div>
+            <div className="">
+              <h1>rhfwiufrkg</h1>
+            </div>
+            <div className="">
+              <h1>rhfwiufrkg</h1>
+            </div>
+            <div className="">
+              <h1>rhfwiufrkg</h1>
+            </div>
+            <div className="">
+              <h1>rhfwiufrkg</h1>
+            </div>
+            <div className="">
+              <h1>rhfwiufrkg</h1>
+            </div>
+            <div className="">
+              <h1>rhfwiufrkg</h1>
+            </div>
+            <div className="">
+              <h1>rhfwiufrkg</h1>
+            </div>
+            <div className="">
+              <h1>rhfwiufrkg</h1>
+            </div>
+            <div className="">
+              <h1>rhfwiufrkg</h1>
+            </div>
+            <div className="">
+              <h1>rhfwiufrkg</h1>
+            </div>
+            <div className="">
+              <h1>rhfwiufrkg</h1>
+            </div>
+            <div className="">
+              <h1>rhfwiufrkg</h1>
+            </div>
+            <div className="">
+              <h1>rhfwiufrkg</h1>
+            </div>
+            <div className="">
+              <h1>rhfwiufrkg</h1>
+            </div>
+          </div>
+
+          <div className={`w-[65%] absolute left-64 bottom-0 lg:block hidden`}>
+            <Input
+              size="lg"
+              placeholder="Write down your message..."
+              className="absolute bottom-0  border-2 rounded-xl left-2 w-full"
+              type="text"
+            ></Input>
+            <IoSend className="absolute text-3xl text-primary bottom-2 right-0 cursor-pointer" />
+          </div>
         </div>
+      </div>
     );
 };
 

@@ -11,7 +11,7 @@ const SocialLogin = () => {
             // The signed-in user info.
             const user = result.user;
             console.log(user);
-            navigate("/dashboard");
+            navigate("/dashboard/overview");
            
           })
           .catch((error) => {

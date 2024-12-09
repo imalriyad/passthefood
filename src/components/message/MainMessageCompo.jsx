@@ -8,7 +8,7 @@ import UseAllContext from "../../hooks/UseAllContext";
 
 const MainMessageCompo = () => {
   const { isMessageOpen } = UseAllContext();
-  console.log(isMessageOpen);
+
 
   const [messagesData, setMessagesData] = useState([
     {
@@ -62,12 +62,14 @@ const MainMessageCompo = () => {
             {messagesData.map((message) =>
               message.type === "received" ? (
                 <ChatbubbleReceiver
+                  key={message.text}
                   name={message.name}
                   text={message.text}
                   avatar={message.avatar}
                 ></ChatbubbleReceiver>
               ) : (
                 <ChatbubbleSender
+                  key={message.text}
                   name={message.name}
                   text={message.text}
                   avatar={message.avatar}

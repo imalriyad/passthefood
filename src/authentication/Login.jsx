@@ -12,15 +12,10 @@ const Login = () => {
     const {user,login,setMessage,setTitle,setIsOpen,setSuccess } = UseAllContext()
     const navigate = useNavigate()
 
-   console.log(user);
-   
-
     const onSubmit = (data) => {
-      console.log(data);
-      
       const email = data.email;
       const password = data.password;
-     console.log(user?.emailVerified);
+  
     
      if(user?.emailVerified === false){
       setSuccess(false)
@@ -33,7 +28,7 @@ const Login = () => {
       login(email, password)
         .then((user) => {
           reset()
-          navigate("/dashboard");
+          navigate("/dashboard/overview");
 
         })
         .catch((error) => {

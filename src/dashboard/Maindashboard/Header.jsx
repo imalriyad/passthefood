@@ -4,7 +4,7 @@ import NotificationPopUp from "../../utils/notification/NotificationPopUp";
 import ProfilePopUp from "../../utils/ProfilePopUp";
 
 const Header = () => {
-    const { toggleSidebar } = UseAllContext()
+    const { toggleSidebar} = UseAllContext()
         
     return (
       <div className="flex justify-between items-center p-4 bg-white shadow">

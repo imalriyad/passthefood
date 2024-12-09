@@ -18,6 +18,7 @@ const ContextProvider = ({ children }) => {
   const [isSuccess, setSuccess] = useState(false);
   const [isSidebarOpen, setSidebarOpen] = useState(true);
   const [isMessageModalOpen, setIsMessageModalOpen] = useState(false);
+  const [isMessageOpen, setIsMessageOpen] = useState(false);
 
   const registeration = (email, password) => {
     setLoading(true);
@@ -36,6 +37,7 @@ const ContextProvider = ({ children }) => {
 
   const toggleSidebar = () => {
     setSidebarOpen(!isSidebarOpen);
+    setIsMessageOpen(false)
   };
 
   const passwordReset = (email) => {
@@ -73,7 +75,10 @@ const ContextProvider = ({ children }) => {
     isSidebarOpen,
     setSidebarOpen,
     toggleSidebar,
-    isMessageModalOpen, setIsMessageModalOpen
+    isMessageModalOpen,
+    setIsMessageModalOpen,
+    isMessageOpen,
+    setIsMessageOpen,
   };
 
   return (

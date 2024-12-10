@@ -1,20 +1,24 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useGeolocation from "../hooks/useGeolocation";
 import { useForm } from "react-hook-form";
-import UseAllContext from "../hooks/UseAllContext";
+import useAllContext from "../hooks/useAllContext";
 import { sendEmailVerification } from "firebase/auth";
 import auth from "./firebase.config";
 import ModalCompo from "../utils/ModalCompo";
 import SocialLogin from "./SocialLogin";
 import { Select, SelectItem } from "@nextui-org/react";
+import useAxios from "../hooks/useAxios";
+const avatar = "https://i.postimg.cc/cCfNnmG6/chicken.png";
 
 const Registration = () => {
+  const axios = useAxios();
   const [isShowPass, setShowPass] = useState(false);
   const { location } = useGeolocation();
-  const { registeration, setMessage, setTitle, setIsOpen, setSuccess } =
-    UseAllContext();
+  const navigate = useNavigate();
 
+  const { registeration, setMessage, setTitle, setIsOpen, setSuccess } =
+    useAllContext();
   const {
     register,
     handleSubmit,
@@ -23,14 +27,30 @@ const Registration = () => {
   } = useForm({});
 
   const onSubmit = (data) => {
+    const name = data.name;
+    const phone = data.phone;
     const email = data.email;
     const password = data.password;
+    const accountType = data.accountType;
+    const method = "manual";
+    const address = data?.address;
+    const newUser = {
+      name,
+      password,
+      email,
+      phone,
+      address,
+      avatar,
+      accountType,
+      method,
+    };
+console.log(newUser);
 
     registeration(email, password)
       .then((user) => {
         if (!user?.emailVerified) {
           sendEmailVerification(auth.currentUser)
-            .then(() => {
+            .then(async () => {
               reset();
               setSuccess(true);
               setTitle(`A verification email has been sent to "${email}"`);
@@ -38,7 +58,12 @@ const Registration = () => {
                 "Please check your inbox or spam folder for the email."
               );
               setIsOpen(true); // Trigger modal on success
-              navigate("/login");
+
+              const res = await axios.post("/registration", newUser);
+              if (res.status === 200) {
+                console.log(res.data);
+                navigate("/login");
+              }
             })
             .catch((error) => {
               console.error("Error sending verification email:", error.message);
@@ -92,10 +117,10 @@ const Registration = () => {
           )}
 
           <input
-            type="number"
-            placeholder="Number"
+            type="text"
+            placeholder="Phone"
             className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-            {...register("number", { required: true })}
+            {...register("phone", { required: true })}
           />
 
           {errors.number && (

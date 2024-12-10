@@ -1,39 +1,36 @@
 import { useNavigate } from "react-router-dom";
-import UseAllContext from "../hooks/UseAllContext";
+import UseAllContext from "../hooks/useAllContext";
 
 const SocialLogin = () => {
-    const { user, googleLogin } = UseAllContext();
-    const navigate = useNavigate();
-    const loginWithGoogle = () => {
-        googleLogin()
-          .then((result) => {
-            
-            // The signed-in user info.
-            const user = result.user;
-            console.log(user);
-            navigate("/dashboard/overview");
-           
-          })
-          .catch((error) => {
-            console.log(error);
-            
-          });  
-  }
-  
+  const { user, googleLogin } = UseAllContext();
+  const navigate = useNavigate();
+  const loginWithGoogle = () => {
+    googleLogin()
+      .then((result) => {
+        // The signed-in user info.
+        const user = result.user;
+        console.log(user);
+        navigate("/dashboard/overview");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   // const loginWithFacebook = () => {
   //   facebookLogin()
   //         .then((result) => {
-          
+
   //         const user = result.user;
   //          console.log(user);
-           
+
   //         })
   //         .catch((error) => {
   //           console.log(error);
-            
-  //         }); 
+
+  //         });
   // }
-    
+
   return (
     <>
       <button

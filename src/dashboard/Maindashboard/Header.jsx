@@ -1,10 +1,10 @@
 
-import UseAllContext from "../../hooks/UseAllContext"
+import useAllContext from "../../hooks/useAllContext";
 import NotificationPopUp from "../../utils/notification/NotificationPopUp";
 import ProfilePopUp from "../../utils/ProfilePopUp";
 
 const Header = () => {
-    const { toggleSidebar} = UseAllContext()
+    const { toggleSidebar} = useAllContext()
         
     return (
       <div className="flex justify-between items-center p-4 bg-white shadow">

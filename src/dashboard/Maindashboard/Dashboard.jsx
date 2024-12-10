@@ -1,12 +1,14 @@
 
 import Sidebar from "./Sidebar";
 import Header from "./Header";
-import UseAllContext from "../../hooks/UseAllContext";
 import { Outlet } from "react-router-dom";
+import useAllContext from "../../hooks/useAllContext";
 
 
 const Dashboard = () => {
-   const {isSidebarOpen,setSidebarOpen} = UseAllContext()
+  const { isSidebarOpen, setSidebarOpen } = useAllContext()
+ 
+  
 
    const toggleSidebar = () => {
      setSidebarOpen(!isSidebarOpen);

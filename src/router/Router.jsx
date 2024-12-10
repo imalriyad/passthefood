@@ -9,6 +9,7 @@ import ManageUser from "../dashboard/Maindashboard/manageuser/ManageUser";
 import Donation from "../dashboard/Maindashboard/donation/Donation";
 import Analytics from "../dashboard/Maindashboard/analytics/Analytics";
 import MainMessageCompo from "../components/message/MainMessageCompo";
+import PrivateRoute from "../private/PrivateRoute";
 
 
 
@@ -33,27 +34,31 @@ import MainMessageCompo from "../components/message/MainMessageCompo";
     },
     {
       path: "/dashboard",
-      element: <Dashboard></Dashboard>,
+      element: (
+        <PrivateRoute>
+          <Dashboard></Dashboard>
+        </PrivateRoute>
+      ),
       children: [
         {
           path: "overview",
-          element: <Overview></Overview>
+          element: <Overview></Overview>,
         },
         {
           path: "inbox",
-          element: <MainMessageCompo></MainMessageCompo>
+          element: <MainMessageCompo></MainMessageCompo>,
         },
         {
           path: "manage-user",
-          element: <ManageUser></ManageUser>
+          element: <ManageUser></ManageUser>,
         },
         {
           path: "donation",
-          element: <Donation></Donation>
+          element: <Donation></Donation>,
         },
         {
           path: "analytics",
-          element: <Analytics></Analytics>
+          element: <Analytics></Analytics>,
         },
       ],
     },

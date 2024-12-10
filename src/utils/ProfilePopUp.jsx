@@ -6,21 +6,23 @@ import {
     User,
     Button,
   } from "@nextui-org/react";
-import UseAllContext from "../hooks/UseAllContext";
+
 import { useNavigate } from "react-router-dom";
+import useAllContext from "../hooks/useAllContext";
+import useUserInfo from "../hooks/useUserInfo";
   
 export default function ProfilePopUp() {
-  const { user, logout } = UseAllContext();
+  const { user, logout } = useAllContext()
+  const [userInfo,] = useUserInfo();
+  
   const navigate = useNavigate();
 
   const handleLogout = () => {
-
     logout()
       .then((res) => {
         navigate("/login");
       })
       .catch((error) => {
-     
       });
   }
   
@@ -32,7 +34,7 @@ export default function ProfilePopUp() {
               as="button"
               avatarProps={{
                 isBordered: true,
-                src: `${user?.photoURL}`,
+                src: `${userInfo?.avatar}`,
               }}
               className="transition-transform"
             />
@@ -43,7 +45,7 @@ export default function ProfilePopUp() {
             className="w-[260px]"
           >
             <DropdownItem key="displayname" className="h-10">
-              <p className="font-bold"> @{user?.displayName}</p>
+              <p className="font-bold"> @{userInfo?.name}</p>
             </DropdownItem>
             <DropdownItem key="settings">
               <span className="text-gray-500 font-medium ">My Settings</span>

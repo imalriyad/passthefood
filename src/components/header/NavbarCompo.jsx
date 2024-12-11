@@ -1,15 +1,26 @@
 import React from "react";
-import {Navbar, NavbarBrand, NavbarContent, NavbarItem, NavbarMenuToggle, NavbarMenu, NavbarMenuItem, Button} from "@nextui-org/react";
-import {Logo} from "./Logo.jsx";
-import { Link, useLocation } from "react-router-dom";
-
-
+import {
+  Navbar,
+  NavbarBrand,
+  NavbarContent,
+  NavbarItem,
+  NavbarMenuToggle,
+  NavbarMenu,
+  NavbarMenuItem,
+  Button,
+} from "@nextui-org/react";
+import { Logo } from "./Logo.jsx";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import useAllContext from "../../hooks/UseAllContext.jsx";
 
 export default function NavbarCompo() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
-  let {pathname} = useLocation()
-
-  
+  let { pathname } = useLocation();
+  const { user } = useAllContext();
+  const navigate = useNavigate();
+  const handleRoute = () => {
+    navigate(user ? "/dashboard/overview" : "/registration");
+  };
 
   const menuItems = [
     "Profile",
@@ -49,7 +60,7 @@ export default function NavbarCompo() {
           <Link to={"/"}>Home</Link>
         </NavbarItem>
 
-        {pathname !== "/login" && pathname !== "/signup" && (
+        {pathname !== "/login" && pathname !== "/registration" && (
           <>
             <NavbarItem>
               <a href="#about">About Us</a>
@@ -66,18 +77,33 @@ export default function NavbarCompo() {
         )}
       </NavbarContent>
       <NavbarContent justify="end">
-        <NavbarItem className="hidden lg:flex">
-          <Link to={"/login"} className="text-primary">
-            Login
-          </Link>
-        </NavbarItem>
-
-        <NavbarItem>
-          <Button className="font-semibold" size="sm" color="primary">
+        {user ? (
+          <NavbarItem className="hidden lg:flex">
+            <Button
+              onClick={handleRoute}
+              className="font-semibold"
+              size="sm"
+              color="primary"
+            >
+              Dashboard
+            </Button>
+          </NavbarItem>
+        ) : (
+          <>
             {" "}
-            <Link to="/registration">Sign Up</Link>
-          </Button>
-        </NavbarItem>
+            <NavbarItem className="hidden lg:flex">
+              <Link to={"/login"} className="text-primary">
+                Login
+              </Link>
+            </NavbarItem>
+            <NavbarItem>
+              <Button className="font-semibold" size="sm" color="primary">
+                {" "}
+                <Link to="/registration">Sign Up</Link>
+              </Button>
+            </NavbarItem>
+          </>
+        )}
       </NavbarContent>
       <NavbarMenu>
         {menuItems.map((item, index) => (

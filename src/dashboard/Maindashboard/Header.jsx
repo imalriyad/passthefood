@@ -1,5 +1,5 @@
 
-import useAllContext from "../../hooks/useAllContext";
+import useAllContext from "../../hooks/UseAllContext";
 import NotificationPopUp from "../../utils/notification/NotificationPopUp";
 import ProfilePopUp from "../../utils/ProfilePopUp";
 

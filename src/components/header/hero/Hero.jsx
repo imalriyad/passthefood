@@ -1,23 +1,21 @@
-import React from 'react';
-import childbg from "../hero/childbg.jpg"
-import saveFood from "../hero/food.png"
-import impact from "../hero/impact.png"
-import support from "../hero/support.png"
-import { Button } from '@nextui-org/react';
-import {Avatar, AvatarGroup} from "@nextui-org/react";
-import UseAllContext from '../../../hooks/UseAllContext';
-
+import React from "react";
+import childbg from "../hero/childbg.jpg";
+import saveFood from "../hero/food.png";
+import impact from "../hero/impact.png";
+import support from "../hero/support.png";
+import { Button } from "@nextui-org/react";
+import { Avatar, AvatarGroup } from "@nextui-org/react";
+import UseAllContext from "../../../hooks/UseAllContext";
+import {useNavigate } from "react-router-dom";
 
 const Hero = () => {
-  const {name} = UseAllContext()
-
- console.log(name);
- 
-
-    return (
-      <div className="relative md:px-6 bg-fixed max-w-screen-xl mx-auto overflow-hidden lg:py-20">
- 
-    
+  const { user } = UseAllContext();
+  const navigate = useNavigate();
+  const handleRoute = () => {
+    navigate(user ? "/dashboard/overview" : "/registration");
+  };
+  return (
+    <div className="relative md:px-6 bg-fixed max-w-screen-xl mx-auto overflow-hidden lg:py-20">
       {/* Hero content */}
       <div className="relative z-20 flex lg:flex-row flex-col justify-between gap-2 items-center h-full">
         <div className="p-5 lg:space-y-8 space-y-5">
@@ -25,67 +23,101 @@ const Hero = () => {
             Reduce Food Waste, Feed Your Community
           </h1>
           <p className="text-gray-600 ">
-            Transform food waste into a force for good. Our app bridges the gap between surplus food and local communities in need.
+            Transform food waste into a force for good. Our app bridges the gap
+            between surplus food and local communities in need.
           </p>
-          <Button color="primary" className='md:hidden block font-semibold' size='sm'>Join the Movement</Button>
-          <Button color="primary" className='md:block hidden font-semibold' size='md'>Join the Movement</Button>
+
+          <Button
+            onClick={handleRoute}
+            color="primary"
+            className="md:hidden block font-semibold"
+            size="sm"
+          >
+            Join the Movement
+          </Button>
+
+          <Button
+            onClick={handleRoute}
+            color="primary"
+            className="md:block hidden font-semibold"
+            size="md"
+          >
+            Join the Movement
+          </Button>
 
           <AvatarGroup isBordered>
-      <Avatar src="https://i.pravatar.cc/150?u=a042581f4e29026024d" />
-      <Avatar src="https://i.pravatar.cc/150?u=a04258a2462d826712d" />
-      <Avatar src="https://i.pravatar.cc/150?u=a042581f4e29026704d" />
-      <Avatar src="https://i.pravatar.cc/150?u=a04258114e29026302d" />
-  
-    </AvatarGroup>
+            <Avatar src="https://i.pravatar.cc/150?u=a042581f4e29026024d" />
+            <Avatar src="https://i.pravatar.cc/150?u=a04258a2462d826712d" />
+            <Avatar src="https://i.pravatar.cc/150?u=a042581f4e29026704d" />
+            <Avatar src="https://i.pravatar.cc/150?u=a04258114e29026302d" />
+          </AvatarGroup>
         </div>
 
         <div className="p-5 xl:w-[45%] lg:w-[90%]">
-         <img src={childbg} className='rounded-2xl drop-shadow-lg mx-auto object-cover h-auto' alt="" />
+          <img
+            src={childbg}
+            className="rounded-2xl drop-shadow-lg mx-auto object-cover h-auto"
+            alt=""
+          />
         </div>
       </div>
 
-{/* Icon three */}
-      <div className='flex item-center justify-center md:gap-14 gap-5 lg:pt-20 md:pb-10 lg:pb-0 pt-10 z-20 relative'>
-<div className='flex item-center justify-center'>
-    <div className='flex md:flex-row flex-col gap-2 md:gap-4 items-center'>
-    <div className="w-[60px] h-[60px] bg-[#e0f2ff] rounded-lg flex items-center justify-center">
-     <img src={saveFood} className="w-[40px] object-cover h-[40px] rounded-full" alt=""/>
-</div>
+      {/* Icon three */}
+      <div className="flex item-center justify-center md:gap-14 gap-5 lg:pt-20 md:pb-10 lg:pb-0 pt-10 z-20 relative">
+        <div className="flex item-center justify-center">
+          <div className="flex md:flex-row flex-col gap-2 md:gap-4 items-center">
+            <div className="w-[60px] h-[60px] bg-[#e0f2ff] rounded-lg flex items-center justify-center">
+              <img
+                src={saveFood}
+                className="w-[40px] object-cover h-[40px] rounded-full"
+                alt=""
+              />
+            </div>
 
-<div><h1 className=" text-center font-semibold text-xs md:text-lg">Save Foods</h1></div>
+            <div>
+              <h1 className=" text-center font-semibold text-xs md:text-lg">
+                Save Foods
+              </h1>
+            </div>
+          </div>
+        </div>
+        <div className="flex item-center justify-center">
+          <div className="flex md:flex-row flex-col gap-2 md:gap-4 items-center">
+            <div className="w-[60px] h-[60px] bg-[#e0f2ff] rounded-lg flex items-center justify-center">
+              <img
+                src={support}
+                className="w-[40px] object-cover h-[40px] rounded-full"
+                alt=""
+              />
+            </div>
 
-</div>
- </div>
- <div className='flex item-center justify-center'>
-    <div className='flex md:flex-row flex-col gap-2 md:gap-4 items-center'>
-    <div className="w-[60px] h-[60px] bg-[#e0f2ff] rounded-lg flex items-center justify-center">
-     <img src={support} className="w-[40px] object-cover h-[40px] rounded-full" alt=""/>
-</div>
+            <div>
+              <h1 className=" text-center font-semibold text-xs md:text-lg">
+                Support Others
+              </h1>
+            </div>
+          </div>
+        </div>
+        <div className="flex item-center justify-center">
+          <div className="flex  md:flex-row flex-col gap-2 md:gap-4 items-center">
+            <div className="w-[60px] h-[60px] bg-[#e0f2ff] rounded-lg flex items-center justify-center">
+              <img
+                src={impact}
+                className="w-[40px] object-cover h-[40px] rounded-full"
+                alt=""
+              />
+            </div>
 
-<div><h1 className=" text-center font-semibold text-xs md:text-lg">Support Others</h1></div>
-
-</div>
- </div>
- <div className='flex item-center justify-center'>
-    <div className='flex  md:flex-row flex-col gap-2 md:gap-4 items-center'>
-    <div className="w-[60px] h-[60px] bg-[#e0f2ff] rounded-lg flex items-center justify-center">
-     <img src={impact} className="w-[40px] object-cover h-[40px] rounded-full" alt=""/>
-</div>
-
-<div><h1 className="text-center font-semibold text-xs md:text-lg">Create Impact</h1></div>
-
-</div>
- </div>
-</div>
-          
+            <div>
+              <h1 className="text-center font-semibold text-xs md:text-lg">
+                Create Impact
+              </h1>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    
-    
-
-
-      
-      
-    );
+  );
 };
 
 export default Hero;

@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { Logo } from "../../components/header/Logo";
 import UseAllContext from "../../hooks/UseAllContext";
 import { RiMessageFill } from "react-icons/ri";
@@ -17,13 +17,17 @@ const Sidebar = () => {
     >
       {" "}
       <div
-        className={`md:text-xl flex justify-between items-center text-sm font-bold mb-8 ${!isSidebarOpen?"hidden":'flex'}`}
+        className={`md:text-xl flex justify-between items-center text-sm font-bold mb-8 ${
+          !isSidebarOpen ? "hidden" : "flex"
+        }`}
       >
         {" "}
-        <div className="flex items-center">
-          <Logo />
-          <p className="font-bold text-lg">Passthefood</p>
-        </div>
+        <Link to="/">
+          <div className="flex items-center">
+            <Logo />
+            <p className="font-bold text-lg">Passthefood</p>
+          </div>
+        </Link>
         <i
           className="fas fa-bars text-gray-600 text-xl lg:hidden block mr-4 cursor-pointer"
           onClick={toggleSidebar}
@@ -46,7 +50,7 @@ const Sidebar = () => {
             }
             to={"inbox"}
           >
-            <RiMessageFill className="text-2xl"/>
+            <RiMessageFill className="text-2xl" />
             Messages
           </NavLink>
 

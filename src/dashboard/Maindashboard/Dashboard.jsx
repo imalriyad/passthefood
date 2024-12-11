@@ -2,7 +2,8 @@
 import Sidebar from "./Sidebar";
 import Header from "./Header";
 import { Outlet } from "react-router-dom";
-import useAllContext from "../../hooks/useAllContext";
+import useAllContext from "../../hooks/UseAllContext";
+
 
 
 const Dashboard = () => {

@@ -10,6 +10,8 @@ import {
   signOut,
 } from "firebase/auth";
 
+
+
 const ContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isLoading, setLoading] = useState(true);
@@ -20,6 +22,7 @@ const ContextProvider = ({ children }) => {
   const [isSidebarOpen, setSidebarOpen] = useState(true);
   const [isMessageModalOpen, setIsMessageModalOpen] = useState(false);
   const [isMessageOpen, setIsMessageOpen] = useState(false);
+
 
   const registeration = (email, password) => {
     setLoading(true);
@@ -38,7 +41,7 @@ const ContextProvider = ({ children }) => {
 
   const toggleSidebar = () => {
     setSidebarOpen(!isSidebarOpen);
-    setIsMessageOpen(false)
+    setIsMessageOpen(false);
   };
 
   const passwordReset = (email) => {

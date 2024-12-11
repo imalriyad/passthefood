@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import useAxios from "./useAxios";
-import useAllContext from "./useAllContext";
+import useAllContext from "./UseAllContext";
+
 
 const useUserInfo = () => {
   const axios = useAxios();

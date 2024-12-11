@@ -3,6 +3,7 @@ import { AllContext } from "../context/ContextProvider";
 
 
 const useAllContext = () => {
+
   const authInfo  = useContext(AllContext)
   return authInfo
 };

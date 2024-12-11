@@ -3,7 +3,8 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import ModalCompo from "../utils/ModalCompo";
 import SocialLogin from "./SocialLogin";
-import UseAllContext from "../hooks/useAllContext";
+import useAllContext from "../hooks/UseAllContext";
+
 
 const Login = () => {
   const [isShowPass, setShowPass] = useState(false);
@@ -14,7 +15,7 @@ const Login = () => {
     reset,
   } = useForm();
   const { user, login, setMessage, setTitle, setIsOpen, setSuccess } =
-    UseAllContext();
+    useAllContext();
   const navigate = useNavigate();
 
   const onSubmit = (data) => {

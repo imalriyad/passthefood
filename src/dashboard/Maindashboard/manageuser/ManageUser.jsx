@@ -71,7 +71,6 @@ const ManageUser = () => {
 
                   <td className="py-4 px-2 text-sm md:text-base">
                     <span
-                    
                       className="text-xl cursor-pointer px-4"
                     >
                       <i className="fa-solid fa-trash font-bold"></i>

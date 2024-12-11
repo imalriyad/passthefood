@@ -2,13 +2,13 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import useGeolocation from "../hooks/useGeolocation";
 import { useForm } from "react-hook-form";
-import useAllContext from "../hooks/useAllContext";
 import { sendEmailVerification } from "firebase/auth";
 import auth from "./firebase.config";
 import ModalCompo from "../utils/ModalCompo";
 import SocialLogin from "./SocialLogin";
 import { Select, SelectItem } from "@nextui-org/react";
 import useAxios from "../hooks/useAxios";
+import useAllContext from "../hooks/UseAllContext";
 const avatar = "https://i.postimg.cc/cCfNnmG6/chicken.png";
 
 const Registration = () => {
@@ -16,9 +16,7 @@ const Registration = () => {
   const [isShowPass, setShowPass] = useState(false);
   const { location } = useGeolocation();
   const navigate = useNavigate();
-
-  const { registeration, setMessage, setTitle, setIsOpen, setSuccess } =
-    useAllContext();
+  const { registeration, setMessage, setTitle, setIsOpen, setSuccess } = useAllContext();
   const {
     register,
     handleSubmit,

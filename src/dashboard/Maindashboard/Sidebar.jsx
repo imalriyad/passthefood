@@ -61,7 +61,7 @@ const Sidebar = () => {
             to={"manage-user"}
           >
             <i className="fas fa-user-check text-xl"></i>
-            Manage Users
+            Users
           </NavLink>
 
           <NavLink

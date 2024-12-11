@@ -15,6 +15,8 @@ import { now, getLocalTimeZone } from "@internationalized/date";
 import UseAllContext from "../hooks/UseAllContext";
 import useGeolocation from "../hooks/useGeolocation";
 import { useState } from "react";
+import useAxios from "../hooks/useAxios";
+import { useForm } from "react-hook-form";
 
 const FoodModal = () => {
   const { setIsOpen, isOpen } = UseAllContext();
@@ -22,13 +24,43 @@ const FoodModal = () => {
   const { location } = useGeolocation();
   const [address, setAddress] = useState("");
   const [fileName, setFileName] = useState("");
+  const [uploadUrl, setUploadUrl] = useState("");
+  const axios = useAxios();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm({});
 
-  const handleFileChange = (event) => {
+  // handle image upload to cloudnary
+  const handleFileChange = async (event) => {
     const file = event.target.files[0];
+
     if (file) {
-      setFileName(file.name); // Update the placeholder to show the selected file name
-      console.log("Selected file:", file); // Use this for further handling, like uploading
+      setFileName(file.name);
+    } else {
+      return;
     }
+    const data = new FormData();
+    data.append("file", file);
+    data.append("upload_preset", "passthefoodproject");
+    data.append("cloud_name", "dlgjtxwwy");
+
+    const response = await axios.post(
+      `https://api.cloudinary.com/v1_1/dlgjtxwwy/image/upload`,
+      data
+    );
+    setUploadUrl(response.data?.url);
+  };
+
+  const onSubmit = async (data) => {
+    const foodImage = uploadUrl;
+    const res = await axios.post("/create-donation", { ...data, foodImage });
+
+    console.log(res.data);
+    
+    reset();
   };
 
   const regionData = [
@@ -42,16 +74,17 @@ const FoodModal = () => {
     { division: "Rangpur" },
   ];
 
-  const foodCategories = [
-    "Rice",
-    "Curries & Stews",
-    "Fish",
-    "Breads",
-    "Snacks & Street Food",
-    "Sweets & Desserts",
-  ];
+const foodCategoriesData = [
+  { category: "Rice" },
+  { category: "Curries & Stews" },
+  { category: "Fish" },
+  { category: "Breads" },
+  { category: "Snacks & Street Food" },
+  { category: "Sweets & Desserts" },
+];
 
-  const handleIconClick = () => {
+
+  const handleGetLocation = () => {
     if (location?.address) {
       setAddress(location.address);
     }
@@ -65,57 +98,109 @@ const FoodModal = () => {
             Donate Food
           </ModalHeader>
           <ModalBody>
-            <form className="grid gap-4 grid-cols-2">
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="grid gap-4 grid-cols-2"
+            >
               {/* Food Name Input */}
               <div>
-                <Input size="sm" type="text" label="Food Name" />
+                <Input
+                  {...register("foodName", { required: true })}
+                  size="sm"
+                  type="text"
+                  label="Food Name"
+                />
+                {errors.foodName && (
+                  <span className="text-sm text-red-500">
+                    Food name required.
+                  </span>
+                )}
               </div>
 
               {/* Region Dropdown */}
-              <Select size={"sm"} label="Region" className="w-full rounded-lg">
-                {regionData?.map((region) => (
-                  <SelectItem
-                    key={region.division.toLocaleLowerCase()}
-                    value={region.division.toLocaleLowerCase()}
-                  >
-                    {region.division}
-                  </SelectItem>
-                ))}
-              </Select>
+              <div>
+                {" "}
+                <Select
+                  {...register("foodRegion", { required: true })}
+                  size={"sm"}
+                  label="Region"
+                  className="w-full rounded-lg"
+                >
+                  {regionData?.map((region) => (
+                    <SelectItem
+                      key={region.division.toLocaleLowerCase()}
+                      value={region.division.toLocaleLowerCase()}
+                    >
+                      {region.division}
+                    </SelectItem>
+                  ))}
+                </Select>
+                {errors.foodRegion && (
+                  <span className="text-sm text-red-500">
+                    Food region required.
+                  </span>
+                )}
+              </div>
 
               {/* Food Category Dropdown */}
               <div>
                 <Select
+                  {...register("foodCategory", { required: true })}
                   size={"sm"}
                   label="Food Category"
                   className="w-full rounded-lg"
                 >
-                  {foodCategories?.map((category, index) => (
+                  {foodCategoriesData?.map((category, index) => (
                     <SelectItem
-                      key={index}
-                      value={category.toLocaleLowerCase()}
+                      key={category.category.toLocaleLowerCase()}
+                      value={category.category.toLocaleLowerCase()}
                     >
-                      {category}
+                      {category.category}
                     </SelectItem>
                   ))}
                 </Select>
+                {errors.foodCategory && (
+                  <span className="text-sm text-red-500">
+                    Food category required.
+                  </span>
+                )}
               </div>
 
               {/* Weight Input */}
-
               <div>
-                <Input size="sm" type="number" label="Food Weight (KG)" />
+                <Input
+                  {...register("foodWeight", { required: true })}
+                  size="sm"
+                  type="number"
+                  label="Food Weight (KG)"
+                />
+                {errors.foodWeight && (
+                  <span className="text-sm text-red-500">
+                    Food weight required
+                  </span>
+                )}
               </div>
 
               {/* Value Input */}
               <div>
-                <Input size="sm" type="number" label="Food Value (USD)" />
+                <Input
+                  {...register("foodValue", { required: true })}
+                  size="sm"
+                  type="number"
+                  label="Food Value (USD)"
+                />
+                {errors.foodValue && (
+                  <span className="text-sm text-red-500">
+                    Food value required
+                  </span>
+                )}
               </div>
 
-              {/* Value Address */}
+              {/* Pick-up Address */}
               <div>
                 <div className="relative">
                   <Input
+                    {...register("foodPickupAddress", { required: true })}
                     size="sm"
                     type="text"
                     label="Pick-up Address"
@@ -124,16 +209,21 @@ const FoodModal = () => {
                   />
                   <i
                     className="fa-solid fa-location-crosshairs fas fa-eye-slash absolute right-3 top-4 text-gray-500 cursor-pointer"
-                    onClick={handleIconClick}
+                    onClick={handleGetLocation}
                   ></i>
                 </div>
+                {errors.foodPickupAddress && (
+                  <span className="text-sm text-red-500">
+                    Pickup address required
+                  </span>
+                )}
               </div>
 
-              {/* Food image */}
+              {/* Food Image */}
               <div className="col-span-2">
                 <div className="relative">
-                  {/* Hidden File Input */}
                   <input
+                    {...register("foodImage", { required: true })}
                     onChange={handleFileChange}
                     type="file"
                     accept="image/*"
@@ -143,46 +233,63 @@ const FoodModal = () => {
                       zIndex: 2,
                     }}
                   />
-                  {/* Styled Input */}
                   <span className="flex items-center">
-                    {" "}
                     <Input
                       size="lg"
                       readOnly
                       placeholder={fileName || "Select food image"}
                       className="relative z-1"
-                    />{" "}
+                    />
                     <i className="fa-solid absolute right-4 fa-image"></i>
                   </span>
                 </div>
+                {errors.foodImage && (
+                  <span className="text-sm text-red-500">
+                    Food Image required.
+                  </span>
+                )}
               </div>
 
-              {/* Food Expiry date */}
+              {/* Food Expiry Date */}
               <div className="col-span-2">
                 <DatePicker
+                  {...register("foodExpiryDate", { required: true })}
                   label="Food Expiry date"
                   hideTimeZone
                   minValue={now(getLocalTimeZone())}
                   showMonthAndYearPickers
                   defaultValue={now(getLocalTimeZone())}
                 />
+
+                {errors.foodExpiryDate && (
+                  <span className="text-sm text-red-500">
+                    Food expiry date required
+                  </span>
+                )}
               </div>
 
               {/* Instrcution */}
               <div className="col-span-2">
                 <Textarea
+                  {...register("instructions", { required: true })}
                   variant="flat"
                   label="Any Instruction?"
                   labelPlacement="inside"
-                />
+                />{" "}
+                {errors.instructions && (
+                  <span className="text-sm text-red-500">
+                    Instructions required
+                  </span>
+                )}
+              </div>
+              <div className="w-full col-span-2">
+                <Button type="submit" className="w-full" color="primary">
+                  Donate
+                </Button>
               </div>
             </form>
           </ModalBody>
-          <ModalFooter>
-            <Button color="primary" onPress={onClose}>
-              Donate
-            </Button>
-          </ModalFooter>
+          <ModalFooter></ModalFooter>
         </ModalContent>
       </Modal>
     </>

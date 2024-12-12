@@ -10,8 +10,6 @@ import {
   signOut,
 } from "firebase/auth";
 
-
-
 const ContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isLoading, setLoading] = useState(true);
@@ -20,9 +18,9 @@ const ContextProvider = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isSuccess, setSuccess] = useState(false);
   const [isSidebarOpen, setSidebarOpen] = useState(true);
-  const [isMessageModalOpen, setIsMessageModalOpen] = useState(false);
+  const [isViewFoodModalOpen, setViewFoodModalModalOpen] = useState(false);
+  const [isConfirmationModalOpen, setConfirmationModalOpen] = useState(false);
   const [isMessageOpen, setIsMessageOpen] = useState(false);
-
 
   const registeration = (email, password) => {
     setLoading(true);
@@ -79,10 +77,12 @@ const ContextProvider = ({ children }) => {
     isSidebarOpen,
     setSidebarOpen,
     toggleSidebar,
-    isMessageModalOpen,
-    setIsMessageModalOpen,
+    isViewFoodModalOpen,
+    setViewFoodModalModalOpen,
     isMessageOpen,
     setIsMessageOpen,
+    isConfirmationModalOpen,
+    setConfirmationModalOpen,
   };
 
   return (

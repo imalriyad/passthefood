@@ -6,10 +6,11 @@ import {
   ModalFooter,
   Button,
 } from "@nextui-org/react";
-import UseAllContext from "../hooks/useAllContext";
+import useAllContext from "../hooks/UseAllContext";
+
 
 export default function ModalCompo() {
-  const { title, message, setIsOpen, isOpen, isSuccess } = UseAllContext();
+  const { title, message, setIsOpen, isOpen, isSuccess } = useAllContext();
 
   const onClose = () => setIsOpen(false);
 

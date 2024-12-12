@@ -55,7 +55,7 @@ console.log(newUser);
               setMessage(
                 "Please check your inbox or spam folder for the email."
               );
-              setIsOpen(true); // Trigger modal on success
+              setIsOpen(true); 
 
               const res = await axios.post("/registration", newUser);
               if (res.status === 200) {
@@ -70,7 +70,7 @@ console.log(newUser);
               setMessage(
                 "There was an error while sending the verification email. Please try again."
               );
-              setIsOpen(true); // Trigger modal on error
+              setIsOpen(true); 
             });
         }
       })

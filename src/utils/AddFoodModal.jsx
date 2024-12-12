@@ -12,20 +12,24 @@ import {
   DatePicker,
 } from "@nextui-org/react";
 import { now, getLocalTimeZone } from "@internationalized/date";
-import UseAllContext from "../hooks/UseAllContext";
 import useGeolocation from "../hooks/useGeolocation";
 import { useState } from "react";
 import useAxios from "../hooks/useAxios";
 import { useForm } from "react-hook-form";
+import useUserInfo from "../hooks/useUserInfo";
+import useAllContext from "../hooks/UseAllContext";
 
-const FoodModal = () => {
-  const { setIsOpen, isOpen } = UseAllContext();
+const AddFoodModal = () => {
+  const { isOpen, setIsOpen, setConfirmationModalOpen } = useAllContext();
   const onClose = () => setIsOpen(false);
   const { location } = useGeolocation();
   const [address, setAddress] = useState("");
   const [fileName, setFileName] = useState("");
   const [uploadUrl, setUploadUrl] = useState("");
   const axios = useAxios();
+  const [userInfo] = useUserInfo();
+
+
   const {
     register,
     handleSubmit,
@@ -56,11 +60,26 @@ const FoodModal = () => {
 
   const onSubmit = async (data) => {
     const foodImage = uploadUrl;
-    const res = await axios.post("/create-donation", { ...data, foodImage });
+    const donorId = userInfo?._id;
+    const donorType = userInfo?.accountType;
+    const donorName = userInfo?.name;
 
-    console.log(res.data);
-    
-    reset();
+    try {
+      const res = await axios.post("/create-donation", {
+        ...data,
+        foodImage,
+        donorType,
+        donorName,
+        donorId,
+      });
+      if (res.status == 200) {
+        setConfirmationModalOpen(true);
+      }
+
+      reset();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const regionData = [
@@ -74,15 +93,14 @@ const FoodModal = () => {
     { division: "Rangpur" },
   ];
 
-const foodCategoriesData = [
-  { category: "Rice" },
-  { category: "Curries & Stews" },
-  { category: "Fish" },
-  { category: "Breads" },
-  { category: "Snacks & Street Food" },
-  { category: "Sweets & Desserts" },
-];
-
+  const foodCategoriesData = [
+    { category: "Rice" },
+    { category: "Curries & Stews" },
+    { category: "Fish" },
+    { category: "Breads" },
+    { category: "Snacks & Street Food" },
+    { category: "Sweets & Desserts" },
+  ];
 
   const handleGetLocation = () => {
     if (location?.address) {
@@ -283,7 +301,7 @@ const foodCategoriesData = [
                 )}
               </div>
               <div className="w-full col-span-2">
-                <Button type="submit" className="w-full" color="primary">
+                <Button type="submit" className="w-full" onPress={onClose} color="primary">
                   Donate
                 </Button>
               </div>
@@ -296,4 +314,4 @@ const foodCategoriesData = [
   );
 };
 
-export default FoodModal;
+export default AddFoodModal;

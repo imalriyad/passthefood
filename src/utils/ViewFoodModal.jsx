@@ -12,13 +12,13 @@ import { FaLocationDot } from "react-icons/fa6";
 import { PiClockCountdownFill } from "react-icons/pi";
 import UseAllContext from "../hooks/UseAllContext";
 
-const MessageModal = () => {
-  const { isMessageModalOpen, setIsMessageModalOpen } = UseAllContext();
-  const onClose = () => setIsMessageModalOpen(false);
+const ViewFoodModal = () => {
+  const { isViewFoodModalOpen, setViewFoodModalModalOpen } = UseAllContext();
+  const onClose = () => setViewFoodModalModalOpen(false);
 
   return (
     <>
-      <Modal size={"md"} isOpen={isMessageModalOpen} onClose={onClose}>
+      <Modal size={"md"} isOpen={isViewFoodModalOpen} onClose={onClose}>
         <ModalContent>
           <ModalHeader className="flex flex-col gap-1 ">
             Review, chat, and arrange pickup.
@@ -43,8 +43,8 @@ const MessageModal = () => {
                 Banasree, Rampura, Dhaka
               </p>
               <p className="flex items-center gap-1">
-              <IoFastFoodSharp />
-                Food Type: 
+                <IoFastFoodSharp />
+                Food Type:
                 <span className="text-black font-bold">Rice</span>
               </p>
               <p className="flex items-center gap-1">
@@ -54,16 +54,16 @@ const MessageModal = () => {
               </p>
             </div>
             <div className="col-span-2">
-                <Textarea
-                  variant="flat"
-                  label="Message to Donor"
-                  labelPlacement="inside"
-                />
-              </div>
+              <Textarea
+                variant="flat"
+                label="Message to Donor"
+                labelPlacement="inside"
+              />
+            </div>
           </ModalBody>
           <ModalFooter className="w-full">
-            <Button color="primary" className="w-full" onPress={onClose}>
-            Send Message
+            <Button color="primary" className="w-full">
+              Send Message
             </Button>
           </ModalFooter>
         </ModalContent>
@@ -72,4 +72,4 @@ const MessageModal = () => {
   );
 };
 
-export default MessageModal;
+export default ViewFoodModal;

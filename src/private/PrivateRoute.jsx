@@ -1,6 +1,6 @@
 import { Spinner } from "@nextui-org/react";
-import useAllContext from "../hooks/useAllContext";
 import { Navigate } from "react-router-dom";
+import useAllContext from "../hooks/UseAllContext";
 
 const PrivateRoute = ({ children }) => {
   const { isLoading, user } = useAllContext();

@@ -29,7 +29,6 @@ const AddFoodModal = () => {
   const axios = useAxios();
   const [userInfo] = useUserInfo();
 
-
   const {
     register,
     handleSubmit,
@@ -59,11 +58,11 @@ const AddFoodModal = () => {
   };
 
   const onSubmit = async (data) => {
+
     const foodImage = uploadUrl;
     const donorId = userInfo?._id;
     const donorType = userInfo?.accountType;
     const donorName = userInfo?.name;
-
     try {
       const res = await axios.post("/create-donation", {
         ...data,
@@ -73,12 +72,14 @@ const AddFoodModal = () => {
         donorId,
       });
       if (res.status == 200) {
+        reset();
         setConfirmationModalOpen(true);
+      }else{
+        
       }
-
-      reset();
     } catch (error) {
       console.log(error);
+     
     }
   };
 
@@ -108,6 +109,8 @@ const AddFoodModal = () => {
     }
   };
 
+
+  
   return (
     <>
       <Modal size={"md"} isOpen={isOpen} onClose={onClose}>
@@ -272,11 +275,10 @@ const AddFoodModal = () => {
               <div className="col-span-2">
                 <DatePicker
                   {...register("foodExpiryDate", { required: true })}
-                  label="Food Expiry date"
                   hideTimeZone
-                  minValue={now(getLocalTimeZone())}
                   showMonthAndYearPickers
                   defaultValue={now(getLocalTimeZone())}
+                  label="FoodExpiry Date"
                 />
 
                 {errors.foodExpiryDate && (
@@ -301,7 +303,12 @@ const AddFoodModal = () => {
                 )}
               </div>
               <div className="w-full col-span-2">
-                <Button type="submit" className="w-full" onPress={onClose} color="primary">
+                <Button
+                  type="submit"
+                  className="w-full"
+                  onPress={onClose}
+                  color="primary"
+                >
                   Donate
                 </Button>
               </div>

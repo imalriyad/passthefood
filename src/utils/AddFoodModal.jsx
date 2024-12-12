@@ -11,7 +11,9 @@ import {
   Textarea,
   DatePicker,
 } from "@nextui-org/react";
+
 import { now, getLocalTimeZone } from "@internationalized/date";
+
 import useGeolocation from "../hooks/useGeolocation";
 import { useState } from "react";
 import useAxios from "../hooks/useAxios";
@@ -19,8 +21,14 @@ import { useForm } from "react-hook-form";
 import useUserInfo from "../hooks/useUserInfo";
 import useAllContext from "../hooks/UseAllContext";
 
-const AddFoodModal = () => {
-  const { isOpen, setIsOpen, setConfirmationModalOpen } = useAllContext();
+const AddFoodModal = ({ refetch }) => {
+  let [date, setDate] = useState();
+  const {
+    isOpen,
+    setIsOpen,
+    setConfirmationModalOpen,
+    setHasNewFoodItem,
+  } = useAllContext();
   const onClose = () => setIsOpen(false);
   const { location } = useGeolocation();
   const [address, setAddress] = useState("");
@@ -63,23 +71,54 @@ const AddFoodModal = () => {
     const donorId = userInfo?._id;
     const donorType = userInfo?.accountType;
     const donorName = userInfo?.name;
+    const donorAvatar = userInfo?.avatar;
+    const foodExpiryDate = date;
+    const foodName = data?.foodName;
+    const foodValue = data?.foodValue;
+    const foodWeight = data?.foodWeight;
+    const foodCategory = data?.foodCategory;
+    const foodPickupAddress = data?.foodPickupAddress;
+    const foodRegion = data?.foodRegion;
+    const instructions = data?.instructions;
+    const isoStringWithoutTimezone = `${foodExpiryDate.year}-${String(
+      foodExpiryDate.month
+    ).padStart(2, "0")}-${String(foodExpiryDate.day).padStart(2, "0")}T${String(
+      foodExpiryDate.hour
+    ).padStart(2, "0")}:${String(foodExpiryDate.minute).padStart(
+      2,
+      "0"
+    )}:${String(foodExpiryDate.second).padStart(2, "0")}.${String(
+      foodExpiryDate.millisecond
+    ).padStart(3, "0")}`;
+
+    const newFood = {
+      foodImage,
+      donorType,
+      donorName,
+      donorId,
+      foodName,
+      foodExpiryDate: isoStringWithoutTimezone,
+      foodValue,
+      foodWeight,
+      foodCategory,
+      foodRegion,
+      instructions,
+      foodPickupAddress,
+      donorAvatar,
+    };
+
     try {
-      const res = await axios.post("/create-donation", {
-        ...data,
-        foodImage,
-        donorType,
-        donorName,
-        donorId,
-      });
+      const res = await axios.post("/create-donation", newFood);
       if (res.status == 200) {
-        reset();
+        setIsOpen(false);
         setConfirmationModalOpen(true);
-      }else{
-        
+        refetch();
+        reset();
+        setHasNewFoodItem(true)
+      } else {
       }
     } catch (error) {
       console.log(error);
-     
     }
   };
 
@@ -109,8 +148,6 @@ const AddFoodModal = () => {
     }
   };
 
-
-  
   return (
     <>
       <Modal size={"md"} isOpen={isOpen} onClose={onClose}>
@@ -274,13 +311,14 @@ const AddFoodModal = () => {
               {/* Food Expiry Date */}
               <div className="col-span-2">
                 <DatePicker
-                  {...register("foodExpiryDate", { required: true })}
+                  {...register("foodExpiryDate")}
                   hideTimeZone
                   showMonthAndYearPickers
-                  defaultValue={now(getLocalTimeZone())}
-                  label="FoodExpiry Date"
+                  value={date}
+                  defaultValue={date ? date : now(getLocalTimeZone())}
+                  label="Event Date"
+                  onChange={(date) => setDate(date)}
                 />
-
                 {errors.foodExpiryDate && (
                   <span className="text-sm text-red-500">
                     Food expiry date required
@@ -303,12 +341,7 @@ const AddFoodModal = () => {
                 )}
               </div>
               <div className="w-full col-span-2">
-                <Button
-                  type="submit"
-                  className="w-full"
-                  onPress={onClose}
-                  color="primary"
-                >
+                <Button type="submit" className="w-full" color="primary">
                   Donate
                 </Button>
               </div>

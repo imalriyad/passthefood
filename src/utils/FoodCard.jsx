@@ -1,16 +1,22 @@
 import { Card, CardBody, CardFooter, Image, Button } from "@nextui-org/react";
 import { IoFastFoodSharp } from "react-icons/io5";
 import { FaLocationDot } from "react-icons/fa6";
-import { PiClockCountdownFill } from "react-icons/pi";
 import UseAllContext from "../hooks/UseAllContext";
-
+import FoodExpiration from "./FoodExpiration";
+import ViewFoodModal from "./ViewFoodModal";
+import { useState } from "react";
 export default function FoodCard({ allListedFood }) {
   const { setViewFoodModalModalOpen } = UseAllContext();
 
-
+  const [selectedFoodItem, setSelectedFoodItem] = useState({});
+  const handleViewFoodModal = (id) => {
+    setViewFoodModalModalOpen(true);
+    const clickedFood = allListedFood?.find((item) => item._id === id);
+    setSelectedFoodItem(clickedFood);
+  };
 
   return (
-    <div className="gap-2 grid grid-cols-1 xl:grid-cols-5  sm:grid-cols-4">
+    <div className="gap-2 grid grid-cols-1 lg:grid-cols-4 md:grid-cols-2">
       {allListedFood?.map((item, index) => (
         <Card shadow="sm" key={index} className="cursor-pointer">
           <CardBody className="overflow-visible p-0">
@@ -23,7 +29,7 @@ export default function FoodCard({ allListedFood }) {
               src={item?.foodImage}
             />
           </CardBody>
-          <CardFooter className="text-small w-full flex flex-col">
+          <CardFooter className="text-sm w-full flex flex-col">
             <div className="flex justify-between w-full">
               <div className="flex flex-col">
                 <b className="flex items-center capitalize gap-1 mb-2`">
@@ -38,18 +44,15 @@ export default function FoodCard({ allListedFood }) {
             </div>
             <div className="flex flex-col gap-1 text-left w-full">
               <p className="flex items-center gap-1">
-                <FaLocationDot />
-                {item?.foodPickupAddress}
+                <FaLocationDot className="text-xl" />
+                {item?.foodPickupAddress.slice(0, 75)}
               </p>
-              <p className="flex items-center gap-1">
-                <PiClockCountdownFill />
-                Expire In:
-                <span className="text-danger font-bold">
-                </span>
-              </p>
+              <FoodExpiration
+                foodExpireDate={item?.foodExpiryDate}
+              ></FoodExpiration>
 
               <Button
-                onClick={() => setViewFoodModalModalOpen(true)}
+                onClick={() => handleViewFoodModal(item._id)}
                 size="sm"
                 color="primary"
                 className="font-medium"
@@ -61,6 +64,7 @@ export default function FoodCard({ allListedFood }) {
           </CardFooter>
         </Card>
       ))}
+      <ViewFoodModal selectedFoodItem={selectedFoodItem}></ViewFoodModal>
     </div>
   );
 }

@@ -2,7 +2,6 @@ import { Button, Spinner } from "@nextui-org/react";
 import FoodCard from "../../../utils/FoodCard";
 import UseAllContext from "../../../hooks/UseAllContext";
 import AddFoodModal from "../../../utils/AddFoodModal";
-import ViewFoodModal from "../../../utils/ViewFoodModal";
 import ConfirmationModal from "../../../utils/ConfirmationModal";
 import { useQuery } from "@tanstack/react-query";
 import useAxios from "../../../hooks/useAxios";
@@ -60,8 +59,8 @@ const Donation = () => {
         </div>
       </div>
       <FoodCard allListedFood={allListedFood}></FoodCard>
-      <AddFoodModal></AddFoodModal>
-      <ViewFoodModal></ViewFoodModal>
+      <AddFoodModal refetch={refetch}></AddFoodModal>
+     
       <ConfirmationModal></ConfirmationModal>
     </div>
   );

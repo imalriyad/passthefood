@@ -8,11 +8,11 @@ import {
   } from "@nextui-org/react";
 
 import { useNavigate } from "react-router-dom";
-import useAllContext from "../hooks/useAllContext";
 import useUserInfo from "../hooks/useUserInfo";
+import useAllContext from "../hooks/UseAllContext";
   
 export default function ProfilePopUp() {
-  const { user, logout } = useAllContext()
+  const { logout } = useAllContext()
   const [userInfo,] = useUserInfo();
   
   const navigate = useNavigate();

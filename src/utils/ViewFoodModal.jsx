@@ -6,13 +6,16 @@ import {
   ModalFooter,
   Button,
   Textarea,
+  User,
 } from "@nextui-org/react";
 import { IoFastFoodSharp } from "react-icons/io5";
 import { FaLocationDot } from "react-icons/fa6";
-import { PiClockCountdownFill } from "react-icons/pi";
 import UseAllContext from "../hooks/UseAllContext";
+import FoodExpiration from "./FoodExpiration";
+import { HiOutlineSpeakerphone } from "react-icons/hi";
 
-const ViewFoodModal = () => {
+
+const ViewFoodModal = ({ selectedFoodItem }) => {
   const { isViewFoodModalOpen, setViewFoodModalModalOpen } = UseAllContext();
   const onClose = () => setViewFoodModalModalOpen(false);
 
@@ -23,35 +26,49 @@ const ViewFoodModal = () => {
           <ModalHeader className="flex flex-col gap-1 ">
             Review, chat, and arrange pickup.
           </ModalHeader>
-          <ModalBody>
+          <ModalBody className="font-medium">
             <img
-              src="https://www.madewithlau.com/_next/image?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2F2r0kdewr%2Fproduction%2F2c90f6410d47972d8555dd5ddcbcc47346957d43-1000x668.jpg&w=3840&q=75"
-              className="rounded-xl"
-              alt=""
+              src={selectedFoodItem?.foodImage}
+              className="rounded-xl h-[250px] object-cover"
+              alt={selectedFoodItem?.foodName}
             />
 
             <div className="flex items-center justify-between">
-              <b className="flex items-center gap-1 mb-2`">
-                <IoFastFoodSharp />
-                Food Name
-              </b>
-              <p className="text-black font-medium mb-2">20 KG</p>
+              <User
+                className="justify-start capitalize py-2"
+                avatarProps={{
+                  src: `${selectedFoodItem?.donorAvatar}`,
+                }}
+                description={selectedFoodItem?.donorType}
+                name={selectedFoodItem?.donorName}
+              />
+
+              <p className="text-black font-medium mb-2">
+                {selectedFoodItem?.foodWeight}KG
+              </p>
             </div>
-            <div className="flex flex-col gap-1 text-left w-full">
-              <p className="flex items-center gap-1">
-                <FaLocationDot />
-                Banasree, Rampura, Dhaka
-              </p>
-              <p className="flex items-center gap-1">
+            <div className="flex flex-col gap-2 text-left w-full">
+              <b className="flex items-center text-sm  capitalize gap-2 mb-2`">
                 <IoFastFoodSharp />
-                Food Type:
-                <span className="text-black font-bold">Rice</span>
+                {selectedFoodItem?.foodName}
+              </b>
+              <p className="flex text-sm items-center gap-2">
+                <FaLocationDot />
+                {selectedFoodItem?.foodPickupAddress?.slice(0, 75)}
               </p>
-              <p className="flex items-center gap-1">
-                <PiClockCountdownFill />
-                Expire:{" "}
-                <span className="text-danger font-bold">In 3 Hours</span>
-              </p>
+
+              <FoodExpiration
+                foodExpireDate={selectedFoodItem?.foodExpiryDate}
+              ></FoodExpiration>
+              <div>
+                {" "}
+                <span className=" font-semibold text-sm mr-2 inline-flex items-center gap-2 bg-success text-white py-1 px-2 rounded-full">
+                  <HiOutlineSpeakerphone /> Instructions:{" "}
+                </span>
+                <span className="text-xs ">
+                  {selectedFoodItem?.instructions}
+                </span>
+              </div>
             </div>
             <div className="col-span-2">
               <Textarea

@@ -21,6 +21,7 @@ const ContextProvider = ({ children }) => {
   const [isViewFoodModalOpen, setViewFoodModalModalOpen] = useState(false);
   const [isConfirmationModalOpen, setConfirmationModalOpen] = useState(false);
   const [isMessageOpen, setIsMessageOpen] = useState(false);
+  const [hasNewFoodItem, setHasNewFoodItem] = useState(true);
 
   const registeration = (email, password) => {
     setLoading(true);
@@ -83,6 +84,8 @@ const ContextProvider = ({ children }) => {
     setIsMessageOpen,
     isConfirmationModalOpen,
     setConfirmationModalOpen,
+    hasNewFoodItem,
+    setHasNewFoodItem,
   };
 
   return (

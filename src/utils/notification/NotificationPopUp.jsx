@@ -1,25 +1,20 @@
 import React, { useEffect, useState } from "react";
-import {
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-} from "@nextui-org/react";
+import { Popover, PopoverTrigger, PopoverContent } from "@nextui-org/react";
 import NotificationItem from "./NotificationItem";
 import { GoDotFill } from "react-icons/go";
 import useAllContext from "../../hooks/UseAllContext";
 import useAxios from "../../hooks/useAxios";
-const axios = useAxios()
+const axios = useAxios();
 const NotificationPopUp = () => {
-  const { hasNewFoodItem, setHasNewFoodItem } = useAllContext();
-  const [notificationsData,setNotificationsData] = useState([])
+  const { hasNewFoodItem, setHasNewFoodItem, hasNewnoti } = useAllContext();
+  const [notificationsData, setNotificationsData] = useState([]);
 
   useEffect(() => {
     axios
       .get("/get-latest-food-notifications")
       .then((res) => res.data)
       .then((data) => setNotificationsData(data));
-  }, [hasNewFoodItem]);
-console.log(notificationsData);
+  }, [hasNewFoodItem, hasNewnoti]);
 
   return (
     <Popover

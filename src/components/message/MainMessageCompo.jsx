@@ -1,46 +1,50 @@
-import { Input } from "@nextui-org/react";
+
 import { IoSend } from "react-icons/io5";
 import PersonsBar from "./PersonsBar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ChatbubbleReceiver from "./ChatbubbleReceiver";
 import ChatbubbleSender from "./ChatbubbleSender";
 import UseAllContext from "../../hooks/UseAllContext";
+import { io } from "socket.io-client";
+import useUserInfo from "../../hooks/useUserInfo";
+const socket = io("http://localhost:3000");
 
 const MainMessageCompo = () => {
   const { isMessageOpen } = UseAllContext();
-
-
-  const [messagesData, setMessagesData] = useState([
-    {
-      name: "Kate",
-      type: "sent",
-      text: "Hi, I’m Kate, a food collector from PassTheFood. I saw your listing for sandwiches and fruits. Can I confirm pickup today?",
-      avatar: "https://i.pravatar.cc/150?u=a042581f4e29026024d",
-    },
-    {
-      type: "received",
-      text: "Hi, Kate! Yes, the sandwiches and fruits are ready for pickup.",
-      avatar: "https://cdn.framework7.io/placeholder/people-100x100-9.jpg",
+  const [messages, setMessages] = useState([]);
+  const [newMessage, setNewMessage] = useState("");
+  const [userInfo] = useUserInfo();
+  const userId = userInfo?._id;
+  console.log(messages);
   
-    },
-    {
-      name: "Kate",
-      type: "sent",
-      text: "Great! I’ll arrive at 123 Main Street around 2 PM to collect them.",
-      avatar: "https://i.pravatar.cc/150?u=a042581f4e29026024d",
-    },
-    {
-      type: "received",
-      text: "Sounds good! I’ll have everything ready for you. See you then!",
-      avatar: "https://cdn.framework7.io/placeholder/people-100x100-9.jpg",
-    },
-    {
-      name: "Kate",
-      type: "sent",
-      text: "Thanks!",
-      avatar: "https://i.pravatar.cc/150?u=a042581f4e29026024d",
-    },
-  ]);
+
+  useEffect(() => {
+    socket.emit("joinRoom", userId);
+    socket.on("receiveMessage", (message) => {
+      setMessages((prev) => [...prev, message]);
+    });
+
+    return () => {
+      socket.disconnect();
+    };
+  }, [userId]);
+
+  const handleSendMessage = () => {
+    if (newMessage.trim()) {
+      const messageData = {
+        senderId: userId,
+        receiverId: "675badcc3f63597c3d4c946f",
+        message: newMessage,
+      };
+      socket.emit("sendMessage", messageData);
+      setMessages((prev) => [
+        ...prev,
+        { senderId: userId, message: newMessage, timestamp: new Date() },
+      ]);
+
+      setNewMessage("");
+    }
+  };
 
   return (
     <div className="relative overflow-hidden w-full">
@@ -59,21 +63,22 @@ const MainMessageCompo = () => {
           }`}
         >
           <div>
-            {messagesData.map((message) =>
-              message.type === "received" ? (
-                <ChatbubbleReceiver
-                  key={message.text}
-                  name={message.name}
-                  text={message.text}
-                  avatar={message.avatar}
-                ></ChatbubbleReceiver>
-              ) : (
+            {messages.map((message) =>
+              message?.senderId === userId ? (
                 <ChatbubbleSender
                   key={message.text}
                   name={message.name}
-                  text={message.text}
+                  text={message.message}
                   avatar={message.avatar}
                 ></ChatbubbleSender>
+                
+              ) : (
+                <ChatbubbleReceiver
+                  key={message.message}
+                  name={message.name}
+                  text={message.message}
+                  avatar={message.avatar}
+                ></ChatbubbleReceiver>
               )
             )}
           </div>
@@ -85,12 +90,17 @@ const MainMessageCompo = () => {
           }`}
         >
           <input
+            value={newMessage}
+            onChange={(e) => setNewMessage(e.target.value)}
             size="lg"
             placeholder="Write down your message..."
             className="absolute bottom-0 border-2 outline-none px-6 py-3 rounded-xl left-2 w-full"
             type="text"
           />
-          <IoSend className="absolute text-3xl text-[#6bb0f5] bottom-3 right-0 cursor-pointer" />
+          <IoSend
+            onClick={handleSendMessage}
+            className="absolute text-3xl text-[#6bb0f5] bottom-3 right-0 cursor-pointer"
+          />
         </div>
       </div>
     </div>

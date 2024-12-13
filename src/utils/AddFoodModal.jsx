@@ -28,6 +28,7 @@ const AddFoodModal = ({ refetch }) => {
     setIsOpen,
     setConfirmationModalOpen,
     setHasNewFoodItem,
+    setHasNewnoti
   } = useAllContext();
   const onClose = () => setIsOpen(false);
   const { location } = useGeolocation();
@@ -115,6 +116,7 @@ const AddFoodModal = ({ refetch }) => {
         refetch();
         reset();
         setHasNewFoodItem(true)
+        setHasNewnoti(true)
       } else {
       }
     } catch (error) {

@@ -22,6 +22,9 @@ const ContextProvider = ({ children }) => {
   const [isConfirmationModalOpen, setConfirmationModalOpen] = useState(false);
   const [isMessageOpen, setIsMessageOpen] = useState(false);
   const [hasNewFoodItem, setHasNewFoodItem] = useState(true);
+  const [hasNewnoti, setHasNewnoti] = useState(false);
+  const [messages, setMessages] = useState([]);
+  const [newMessage, setNewMessage] = useState("");
 
   const registeration = (email, password) => {
     setLoading(true);
@@ -86,6 +89,12 @@ const ContextProvider = ({ children }) => {
     setConfirmationModalOpen,
     hasNewFoodItem,
     setHasNewFoodItem,
+    hasNewnoti,
+    setHasNewnoti,
+    newMessage,
+    setNewMessage,
+    messages,
+    setMessages,
   };
 
   return (

@@ -22,43 +22,12 @@ const ViewFoodModal = ({ selectedFoodItem }) => {
   const {
     isViewFoodModalOpen,
     setViewFoodModalModalOpen,
-    setMessages,
-    newMessage,
-    setNewMessage,
   } = UseAllContext();
 
   const onClose = () => setViewFoodModalModalOpen(false);
   const [userInfo] = useUserInfo();
   const userId = userInfo?._id;
 
-
-  useEffect(() => {
-    socket.emit("joinRoom", userId);
-    socket.on("receiveMessage", (message) => {
-      setMessages((prev) => [...prev, message]);
-    });
-
-    return () => {
-      socket.disconnect();
-    };
-  }, [userId]);
-
-  const handleSendMessage = (id) => {
-    if (newMessage.trim()) {
-      const messageData = {
-        senderId: userId,
-        receiverId: id,
-        message: newMessage,
-      };
-      socket.emit("sendMessage", messageData);
-      setMessages((prev) => [
-        ...prev,
-        { senderId: userId, message: newMessage, timestamp: new Date() },
-      ]);
-
-      setNewMessage("");
-    }
-  };
 
   return (
     <>
@@ -113,7 +82,6 @@ const ViewFoodModal = ({ selectedFoodItem }) => {
             </div>
             <div className="col-span-2">
               <Textarea
-                onChange={(e) => setNewMessage(e.target.value)}
                 variant="flat"
                 label="Message to Donor"
                 labelPlacement="inside"
@@ -121,11 +89,7 @@ const ViewFoodModal = ({ selectedFoodItem }) => {
             </div>
           </ModalBody>
           <ModalFooter className="w-full">
-            <Button
-              onClick={()=> handleSendMessage(selectedFoodItem?.donorId)}
-              color="primary"
-              className="w-full"
-            >
+            <Button color="primary" className="w-full">
               Send Message
             </Button>
           </ModalFooter>

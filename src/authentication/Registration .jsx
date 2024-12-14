@@ -42,7 +42,7 @@ const Registration = () => {
       accountType,
       method,
     };
-console.log(newUser);
+
 
     registeration(email, password)
       .then((user) => {

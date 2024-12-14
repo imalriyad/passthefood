@@ -15,6 +15,7 @@ export default function ProfilePopUp() {
   const { logout } = useAllContext()
   const [userInfo,] = useUserInfo();
   
+  
   const navigate = useNavigate();
 
   const handleLogout = () => {

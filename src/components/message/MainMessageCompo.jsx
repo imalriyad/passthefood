@@ -1,4 +1,3 @@
-
 import { IoSend } from "react-icons/io5";
 import PersonsBar from "./PersonsBar";
 import { useEffect, useState } from "react";
@@ -7,6 +6,7 @@ import ChatbubbleSender from "./ChatbubbleSender";
 import UseAllContext from "../../hooks/UseAllContext";
 import { io } from "socket.io-client";
 import useUserInfo from "../../hooks/useUserInfo";
+import moment from "moment/moment";
 const socket = io("http://localhost:3000");
 
 const MainMessageCompo = () => {
@@ -15,11 +15,15 @@ const MainMessageCompo = () => {
   const [newMessage, setNewMessage] = useState("");
   const [userInfo] = useUserInfo();
   const userId = userInfo?._id;
-  console.log(messages);
-  
+  const avatar = userInfo?.avatar;
+  const senderName = userInfo?.name;
+  const time = moment().format("lll");
 
   useEffect(() => {
-    socket.emit("joinRoom", userId);
+    if (userId) {
+      socket.emit("joinRoom", userId); // Send MongoDB userId
+    }
+
     socket.on("receiveMessage", (message) => {
       setMessages((prev) => [...prev, message]);
     });
@@ -32,19 +36,31 @@ const MainMessageCompo = () => {
   const handleSendMessage = () => {
     if (newMessage.trim()) {
       const messageData = {
-        senderId: userId,
-        receiverId: "675badcc3f63597c3d4c946f",
-        message: newMessage,
+        senderId: userId, // MongoDB ID of sender
+        receiverId: "675badcc3f63597c3d4c946f", // MongoDB ID of receiver
+        text: newMessage,
+        avatar,
+        time,
+        senderName,
       };
-      socket.emit("sendMessage", messageData);
+
+      socket.emit("sendMessage", messageData); // Emit the message
       setMessages((prev) => [
         ...prev,
-        { senderId: userId, message: newMessage, timestamp: new Date() },
+        {
+          senderId: userId,
+          text: newMessage,
+          avatar,
+          time,
+          senderName,
+          receiverId: messageData?.receiverId,
+        },
       ]);
-
       setNewMessage("");
     }
   };
+
+  console.log(messages);
 
   return (
     <div className="relative overflow-hidden w-full">
@@ -63,20 +79,21 @@ const MainMessageCompo = () => {
           }`}
         >
           <div>
-            {messages.map((message) =>
+            {messages?.map((message) =>
               message?.senderId === userId ? (
                 <ChatbubbleSender
-                  key={message.text}
+                  key={message.time}
+                  time={message.time}
                   name={message.name}
-                  text={message.message}
+                  text={message.text}
                   avatar={message.avatar}
                 ></ChatbubbleSender>
-                
               ) : (
                 <ChatbubbleReceiver
-                  key={message.message}
+                  key={message.name}
+                  time={message.time}
                   name={message.name}
-                  text={message.message}
+                  text={message.text}
                   avatar={message.avatar}
                 ></ChatbubbleReceiver>
               )

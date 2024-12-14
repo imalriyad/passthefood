@@ -7,8 +7,7 @@ const PrivateRoute = ({ children }) => {
 
   if (!user && isLoading) {
     return (
-      <div className="max-w-xs py-28 mx-auto text-center max-h-screen">
-        {" "}
+      <div className=" min-h-screen w-full flex justify-center items-center">
         <Spinner color="warning" size="lg" label="Loading..." />
       </div>
     );

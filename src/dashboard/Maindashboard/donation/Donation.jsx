@@ -28,9 +28,9 @@ const Donation = () => {
 
   if (isLoading) {
     return (
-      <div className="max-w-xs py-28 mx-auto text-center min-h-screen">
-        <Spinner color="warning" size="lg" label="Loading..." />
-      </div>
+      <div className=" min-h-screen w-full flex justify-center items-center">
+      <Spinner color="warning" size="lg" label="Loading..." />
+    </div>
     );
   }
 

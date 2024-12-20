@@ -14,21 +14,48 @@ import UseAllContext from "../hooks/UseAllContext";
 import FoodExpiration from "./FoodExpiration";
 import { HiOutlineSpeakerphone } from "react-icons/hi";
 import useUserInfo from "../hooks/useUserInfo";
-import { useEffect } from "react";
-import { io } from "socket.io-client";
-const socket = io("http://localhost:3000");
+import { useRef } from "react";
+import useAxios from "../hooks/useAxios";
+import { useNavigate } from "react-router-dom";
 
 const ViewFoodModal = ({ selectedFoodItem }) => {
-  const {
-    isViewFoodModalOpen,
-    setViewFoodModalModalOpen,
-  } = UseAllContext();
-
+  const { isViewFoodModalOpen, setViewFoodModalModalOpen } = UseAllContext();
+  const inputRef = useRef(null);
   const onClose = () => setViewFoodModalModalOpen(false);
   const [userInfo] = useUserInfo();
   const userId = userInfo?._id;
+  const axios = useAxios()
+  const navigate = useNavigate();
+  console.log("senderId",userId + "receiverId",selectedFoodItem.donorId);
 
+  const handleCreateConversation = async () => {
+    const senderId = userId;
+    const senderName = userInfo.name;
+    const senderAvatar = userInfo.avatar;
+    const receiverId = selectedFoodItem.donorId;
+    const lastMessageText = inputRef.current.value;
+    const receiverName = selectedFoodItem.donorName;
+    const receiverAvatar = selectedFoodItem.donorAvatar;
 
+   
+    const newConversation = {
+      senderId,
+      receiverId,
+      lastMessageText,
+      senderName,
+      senderAvatar,
+      receiverName,
+      receiverAvatar,
+    };
+
+    console.log(newConversation);
+    
+    const res = await axios.post("/create-conversation",newConversation)
+    if(res.data.success){
+      navigate("/dashboard/inbox")
+    }
+  
+  };
   return (
     <>
       <Modal size={"md"} isOpen={isViewFoodModalOpen} onClose={onClose}>
@@ -82,6 +109,7 @@ const ViewFoodModal = ({ selectedFoodItem }) => {
             </div>
             <div className="col-span-2">
               <Textarea
+                ref={inputRef}
                 variant="flat"
                 label="Message to Donor"
                 labelPlacement="inside"
@@ -89,7 +117,11 @@ const ViewFoodModal = ({ selectedFoodItem }) => {
             </div>
           </ModalBody>
           <ModalFooter className="w-full">
-            <Button color="primary" className="w-full">
+            <Button
+              onClick={handleCreateConversation}
+              color="primary"
+              className="w-full"
+            >
               Send Message
             </Button>
           </ModalFooter>

@@ -4,32 +4,34 @@ import useAxios from "../../hooks/useAxios";
 import useUserInfo from "../../hooks/useUserInfo";
 
 const PersonsBar = () => {
-  const { setIsMessageOpen } = UseAllContext();
+  const { setIsMessageOpen, setMessageReciverId } = UseAllContext();
   const [conversationsPeople, setConversationPeople] = useState([]);
   const [lastMessage, setLastMessage] = useState();
 
   const axios = useAxios();
   const [userInfo] = useUserInfo();
   const userId = userInfo?._id;
-   
-   
-   useEffect(() => {
+
+  useEffect(() => {
     if (userId) {
       axios
         .get(`/get-conversations-messages/${userId}`)
         .then((res) => {
           const participants = res.data?.conversations?.[0]?.participants;
-          setLastMessage(res.data?.conversations[0]?.lastMessage)
-          
-          
+          setLastMessage(res.data?.conversations[0]?.lastMessage);
+
           if (participants && participants.length === 2) {
-            const sender = participants.find((participant) => !participant.isReciver);
-            const receiver = participants.find((participant) => participant.isReciver);
-           
+            const sender = participants.find(
+              (participant) => !participant.isReciver
+            );
+            const receiver = participants.find(
+              (participant) => participant.isReciver
+            );
+
             if (receiver?.userId === userId) {
-              setConversationPeople(sender); 
+              setConversationPeople(sender);
             } else {
-              setConversationPeople(receiver); 
+              setConversationPeople(receiver);
             }
           } else {
             console.error("Invalid participants data:", participants);
@@ -40,7 +42,11 @@ const PersonsBar = () => {
         });
     }
   }, [userId, axios]);
-  
+
+  const handleConversation = () => {
+    setIsMessageOpen(true);
+    setMessageReciverId(conversationsPeople.userId);
+  };
 
   return (
     <>
@@ -51,7 +57,7 @@ const PersonsBar = () => {
 
         <div className="mt-6 flex flex-col gap-4 h-[80vh] overflow-y-auto">
           <div
-            onClick={() => setIsMessageOpen(true)}
+            onClick={handleConversation}
             className="bg-[#6bb0f5] text-white cursor-pointer p-3 w-full flex items-center gap-4 rounded-lg"
           >
             <img
@@ -69,12 +75,9 @@ const PersonsBar = () => {
                   ? conversationsPeople?.name
                   : ""}
               </h1>
-              <p className="text-sm font-light">
-                {lastMessage && lastMessage}
-              </p>
+              <p className="text-sm font-light">{lastMessage && lastMessage}</p>
             </div>
           </div>
-          
         </div>
       </div>
     </>

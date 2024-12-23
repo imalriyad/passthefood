@@ -13,7 +13,6 @@ const ChatbubbleSender = ({ name, text, avatar,time }) => {
           <div className="flex flex-col leading-1.5 p-4 border-gray-200 bg-[#6bb0f5] text-white rounded-s-xl rounded-ee-xl">
             <p className="text-sm font-normal">{text}</p>
           </div>
-          <span className="text-sm font-normal text-gray-500 ">Delivered</span>
         </div>
         <img className="w-8 h-8 rounded-full" src={avatar} alt={name} />
       </div>

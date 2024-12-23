@@ -25,6 +25,7 @@ const ContextProvider = ({ children }) => {
   const [hasNewnoti, setHasNewnoti] = useState(false);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
+  const [messageReciverId, setMessageReciverId] = useState("");
 
   const registeration = (email, password) => {
     setLoading(true);
@@ -95,6 +96,8 @@ const ContextProvider = ({ children }) => {
     setNewMessage,
     messages,
     setMessages,
+    messageReciverId,
+    setMessageReciverId,
   };
 
   return (

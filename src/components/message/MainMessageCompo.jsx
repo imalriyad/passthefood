@@ -1,6 +1,6 @@
 import { IoSend } from "react-icons/io5";
 import PersonsBar from "./PersonsBar";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import ChatbubbleReceiver from "./ChatbubbleReceiver";
 import ChatbubbleSender from "./ChatbubbleSender";
 import UseAllContext from "../../hooks/UseAllContext";
@@ -10,9 +10,15 @@ import moment from "moment/moment";
 const socket = io("http://localhost:3000");
 
 const MainMessageCompo = () => {
-  const { isMessageOpen } = UseAllContext();
-  const [messages, setMessages] = useState([]);
-  const [newMessage, setNewMessage] = useState("");
+  const {
+    isMessageOpen,
+    messages,
+    setMessages,
+    newMessage,
+    setNewMessage,
+    messageReciverId,
+  } = UseAllContext();
+
   const [userInfo] = useUserInfo();
   const userId = userInfo?._id;
   const avatar = userInfo?.avatar;
@@ -21,7 +27,7 @@ const MainMessageCompo = () => {
 
   useEffect(() => {
     if (userId) {
-      socket.emit("joinRoom", userId); // Send MongoDB userId
+      socket.emit("joinRoom", userId);
     }
 
     socket.on("receiveMessage", (message) => {
@@ -29,22 +35,23 @@ const MainMessageCompo = () => {
     });
 
     return () => {
-      socket.disconnect();
+      socket.off("receiveMessage");
     };
   }, [userId]);
 
   const handleSendMessage = () => {
-    if (newMessage.trim()) {
+    if (messageReciverId) {
       const messageData = {
-        senderId: userId, // MongoDB ID of sender
-        receiverId: "675badcc3f63597c3d4c946f", // MongoDB ID of receiver
+        senderId: userId,
+        receiverId: messageReciverId,
         text: newMessage,
         avatar,
         time,
         senderName,
       };
 
-      socket.emit("sendMessage", messageData); // Emit the message
+      socket.emit("sendMessage", messageData);
+
       setMessages((prev) => [
         ...prev,
         {
@@ -53,14 +60,15 @@ const MainMessageCompo = () => {
           avatar,
           time,
           senderName,
-          receiverId: messageData?.receiverId,
+          receiverId: messageReciverId,
         },
       ]);
+
       setNewMessage("");
+    } else {
+      console.error("Cannot send message: Receiver ID is missing.");
     }
   };
-
-  console.log(messages);
 
   return (
     <div className="relative overflow-hidden w-full">

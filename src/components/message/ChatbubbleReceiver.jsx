@@ -1,6 +1,6 @@
 import React from "react";
 
-const ChatbubbleReceiver = ({ name, text, avatar }) => {
+const ChatbubbleReceiver = ({ name, text, avatar, time }) => {
   return (
     <div>
       <div className="flex items-center gap-2.5 drop-shadow-xl">

@@ -4,7 +4,7 @@ import useAxios from "../../hooks/useAxios";
 import useUserInfo from "../../hooks/useUserInfo";
 
 const PersonsBar = () => {
-  const { setIsMessageOpen, setMessageReciverId } = UseAllContext();
+  const { setIsMessageOpen, setMessageReciverId ,setMessages } = UseAllContext();
   const [conversationsPeople, setConversationPeople] = useState([]);
   const [lastMessage, setLastMessage] = useState();
 
@@ -17,6 +17,7 @@ const PersonsBar = () => {
       axios
         .get(`/get-conversations-messages/${userId}`)
         .then((res) => {
+          setMessages(res.data.messages)
           const participants = res.data?.conversations?.[0]?.participants;
           setLastMessage(res.data?.conversations[0]?.lastMessage);
 

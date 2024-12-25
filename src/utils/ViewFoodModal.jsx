@@ -26,7 +26,6 @@ const ViewFoodModal = ({ selectedFoodItem }) => {
   const userId = userInfo?._id;
   const axios = useAxios()
   const navigate = useNavigate();
-  console.log("senderId",userId + "receiverId",selectedFoodItem.donorId);
 
   const handleCreateConversation = async () => {
     const senderId = userId;
@@ -36,7 +35,6 @@ const ViewFoodModal = ({ selectedFoodItem }) => {
     const lastMessageText = inputRef.current.value;
     const receiverName = selectedFoodItem.donorName;
     const receiverAvatar = selectedFoodItem.donorAvatar;
-
    
     const newConversation = {
       senderId,
@@ -48,14 +46,13 @@ const ViewFoodModal = ({ selectedFoodItem }) => {
       receiverAvatar,
     };
 
-    console.log(newConversation);
-    
     const res = await axios.post("/create-conversation",newConversation)
     if(res.data.success){
       navigate("/dashboard/inbox")
     }
-  
   };
+
+
   return (
     <>
       <Modal size={"md"} isOpen={isViewFoodModalOpen} onClose={onClose}>

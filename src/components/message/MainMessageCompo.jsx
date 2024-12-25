@@ -1,12 +1,13 @@
 import { IoSend } from "react-icons/io5";
 import PersonsBar from "./PersonsBar";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import ChatbubbleReceiver from "./ChatbubbleReceiver";
 import ChatbubbleSender from "./ChatbubbleSender";
 import UseAllContext from "../../hooks/UseAllContext";
 import { io } from "socket.io-client";
 import useUserInfo from "../../hooks/useUserInfo";
 import moment from "moment/moment";
+import useAxios from "../../hooks/useAxios";
 const socket = io("http://localhost:3000");
 
 const MainMessageCompo = () => {
@@ -21,9 +22,19 @@ const MainMessageCompo = () => {
 
   const [userInfo] = useUserInfo();
   const userId = userInfo?._id;
-  const avatar = userInfo?.avatar;
+  const senderAvatar = userInfo?.avatar;
   const senderName = userInfo?.name;
   const time = moment().format("lll");
+  const axios = useAxios()
+  const chatEndRef = useRef(null);
+
+ const scrollToBottom = () => {
+  chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+};
+useEffect(() => {
+  scrollToBottom();
+}, [messages]);
+
 
   useEffect(() => {
     if (userId) {
@@ -41,11 +52,12 @@ const MainMessageCompo = () => {
 
   const handleSendMessage = () => {
     if (messageReciverId) {
+
       const messageData = {
         senderId: userId,
         receiverId: messageReciverId,
         text: newMessage,
-        avatar,
+        senderAvatar,
         time,
         senderName,
       };
@@ -57,7 +69,7 @@ const MainMessageCompo = () => {
         {
           senderId: userId,
           text: newMessage,
-          avatar,
+          senderAvatar:senderAvatar,
           time,
           senderName,
           receiverId: messageReciverId,
@@ -65,6 +77,11 @@ const MainMessageCompo = () => {
       ]);
 
       setNewMessage("");
+      
+      axios.post("/create-conversation",{ ...messageData, lastMessageText: messageData.text }).then((res)=>{
+        console.log(res.data);
+      })
+       
     } else {
       console.error("Cannot send message: Receiver ID is missing.");
     }
@@ -106,6 +123,8 @@ const MainMessageCompo = () => {
                 ></ChatbubbleReceiver>
               )
             )}
+                    <div ref={chatEndRef} />
+
           </div>
         </div>
 

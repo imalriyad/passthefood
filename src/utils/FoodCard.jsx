@@ -5,20 +5,22 @@ import UseAllContext from "../hooks/UseAllContext";
 import FoodExpiration from "./FoodExpiration";
 import ViewFoodModal from "./ViewFoodModal";
 import { useState } from "react";
+import DistrbuteConfirm from "./DistrbuteConfirm";
 
 
 
 export default function FoodCard({allListedFood,myDonation}) {
   const { setViewFoodModalModalOpen,setPageNumber,} = UseAllContext();
   const [selectedFoodItem, setSelectedFoodItem] = useState({});
-
+  const [isDistrubuteDone, setIsDistrubteDone] = useState(false);
+ 
 
   const handleViewFoodModal = (id) => {
     setViewFoodModalModalOpen(true);
     const clickedFood = allListedFood?.find((item) => item._id === id);
     setSelectedFoodItem(clickedFood);
   };
-
+  
   return (
     <div>
       <div className="gap-2 grid grid-cols-1 lg:grid-cols-4 md:grid-cols-2">
@@ -69,6 +71,7 @@ export default function FoodCard({allListedFood,myDonation}) {
                   size="sm"
                   color="primary"
                   className="font-medium"
+                  onClick={()=> setIsDistrubteDone(true)}
                 >
                   Mark As Distributed
                   <i className="fa-solid fa-hand-holding-medical"></i>
@@ -86,6 +89,7 @@ export default function FoodCard({allListedFood,myDonation}) {
        <Pagination onChange={(page)=> setPageNumber(page)} initialPage={1} total={10} />
        </div>
       <ViewFoodModal selectedFoodItem={selectedFoodItem}></ViewFoodModal>
+      <DistrbuteConfirm isDistrubuteDone={isDistrubuteDone} setIsDistrubteDone={setIsDistrubteDone}></DistrbuteConfirm>
     </div>
     </div>
   );

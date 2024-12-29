@@ -4,19 +4,20 @@ import useAllContext from "../hooks/UseAllContext";
 
 const PrivateRoute = ({ children }) => {
   const { isLoading, user } = useAllContext();
-
-  if (!user && isLoading) {
+ 
+  if (isLoading) {
     return (
-      <div className=" min-h-screen w-full flex justify-center items-center">
-        <Spinner color="warning" size="lg" label="Loading..." />
+      <div className="min-h-screen w-full flex justify-center items-center">
+        <Spinner color="warning" size="lg" label="Checking authentication..." />
       </div>
     );
   }
 
-  if (user && user.emailVerified) {
-    return children;
+  if (user) {
+    return children
   }
-  return <Navigate to={"/login"}></Navigate>;
+  return <Navigate to={'/Login'}></Navigate>;
 };
+
 
 export default PrivateRoute;

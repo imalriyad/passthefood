@@ -1,4 +1,4 @@
-import { IoSend } from "react-icons/io5";
+import { RiSendPlaneFill } from "react-icons/ri";
 import PersonsBar from "./PersonsBar";
 import { useEffect, useRef } from "react";
 import ChatbubbleReceiver from "./ChatbubbleReceiver";
@@ -107,7 +107,7 @@ useEffect(() => {
             {messages?.map((message) =>
               message?.senderId === userId ? (
                 <ChatbubbleSender
-                  key={message.time}
+                  key={message._id}
                   time={message.time}
                   name={message.name}
                   text={message.text}
@@ -115,7 +115,7 @@ useEffect(() => {
                 ></ChatbubbleSender>
               ) : (
                 <ChatbubbleReceiver
-                  key={message.name}
+                  key={message._id}
                   time={message.time}
                   name={message.name}
                   text={message.text}
@@ -123,7 +123,9 @@ useEffect(() => {
                 ></ChatbubbleReceiver>
               )
             )}
-                    <div ref={chatEndRef} />
+          
+          {/* For scrolling down each time new message */}
+           <div ref={chatEndRef} />
 
           </div>
         </div>
@@ -141,7 +143,7 @@ useEffect(() => {
             className="absolute bottom-0 border-2 outline-none px-6 py-3 rounded-xl left-2 w-full"
             type="text"
           />
-          <IoSend
+          <RiSendPlaneFill  
             onClick={handleSendMessage}
             className="absolute text-3xl text-[#6bb0f5] bottom-3 right-0 cursor-pointer"
           />

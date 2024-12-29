@@ -10,6 +10,7 @@ import Donation from "../dashboard/Maindashboard/donation/Donation";
 import Analytics from "../dashboard/Maindashboard/analytics/Analytics";
 import MainMessageCompo from "../components/message/MainMessageCompo";
 import PrivateRoute from "../private/PrivateRoute";
+import MyDonation from "../dashboard/Maindashboard/donation/MyDonation";
 
 
 
@@ -55,6 +56,10 @@ import PrivateRoute from "../private/PrivateRoute";
         {
           path: "donation",
           element: <Donation></Donation>,
+        },
+        {
+          path: "my-donation",
+          element: <MyDonation></MyDonation>
         },
         {
           path: "analytics",

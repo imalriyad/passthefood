@@ -4,7 +4,7 @@ import useAxios from "../../hooks/useAxios";
 import useUserInfo from "../../hooks/useUserInfo";
 
 const PersonsBar = () => {
-  const { setIsMessageOpen, setMessageReciverId ,setMessages } = UseAllContext();
+  const { setIsMessageOpen, setMessageReciverId ,setMessages,messageReciverId } = UseAllContext();
   const [conversationsPeople, setConversationPeople] = useState([]);
   const [lastMessage, setLastMessage] = useState();
 
@@ -17,7 +17,9 @@ const PersonsBar = () => {
       axios
         .get(`/get-conversations-messages/${userId}`)
         .then((res) => {
-          setMessages(res.data.messages)
+          if(messageReciverId){
+            setMessages(res.data.messages)
+          }
           const participants = res.data?.conversations?.[0]?.participants;
           setLastMessage(res.data?.conversations[0]?.lastMessage);
 
@@ -42,7 +44,7 @@ const PersonsBar = () => {
           console.error("Error fetching conversations:", error);
         });
     }
-  }, [userId, axios]);
+  }, [userId, axios,messageReciverId]);
 
   const handleConversation = () => {
     setIsMessageOpen(true);

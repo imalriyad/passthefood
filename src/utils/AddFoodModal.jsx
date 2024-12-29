@@ -20,9 +20,13 @@ import useAxios from "../hooks/useAxios";
 import { useForm } from "react-hook-form";
 import useUserInfo from "../hooks/useUserInfo";
 import useAllContext from "../hooks/UseAllContext";
+import useDonation from "../hooks/useDonation";
 
-const AddFoodModal = ({ refetch }) => {
+const AddFoodModal = () => {
   let [date, setDate] = useState();
+  const {refetch} = useDonation()
+
+
   const {
     isOpen,
     setIsOpen,

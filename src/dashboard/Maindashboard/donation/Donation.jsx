@@ -1,39 +1,21 @@
-import { Button, Spinner } from "@nextui-org/react";
+import { Button, Pagination } from "@nextui-org/react";
 import FoodCard from "../../../utils/FoodCard";
 import UseAllContext from "../../../hooks/UseAllContext";
 import AddFoodModal from "../../../utils/AddFoodModal";
 import ConfirmationModal from "../../../utils/ConfirmationModal";
-import { useQuery } from "@tanstack/react-query";
-import useAxios from "../../../hooks/useAxios";
+import useDonation from "../../../hooks/useDonation";
+import useUserInfo from "../../../hooks/useUserInfo";
 
 const Donation = () => {
   const { setIsOpen } = UseAllContext();
-  const axios = useAxios();
-  let page = 1;
-  let limit = 10;
+  const {allListedFood} = useDonation()
+  const [userInfo,] = useUserInfo()
+  const userId = userInfo?._id;
 
-  const {
-    data: allListedFood,
-    refetch,
-    isLoading,
-  } = useQuery({
-    queryKey: ["listedFood"],
-    queryFn: async () => {
-      const res = await axios.get(
-        `/get-all-listed-food?page=${page}&limit=${limit}`
-      );
-      return res.data;
-    },
-  });
+  const filteredListedFood = allListedFood?.filter(
+    (foodItem) => foodItem.donorId !== userId
+  );
 
- 
-  if (isLoading) {
-    return (
-      <div className=" min-h-screen w-full flex justify-center items-center">
-      <Spinner color="warning" size="lg" label="Loading..." />
-    </div>
-    );
-  }
 
   return (
     <div className="p-4 md:p-6">
@@ -59,9 +41,9 @@ const Donation = () => {
           </Button>
         </div>
       </div>
-      <FoodCard allListedFood={allListedFood}></FoodCard>
-      <AddFoodModal refetch={refetch}></AddFoodModal>
      
+      <FoodCard allListedFood={filteredListedFood}></FoodCard>
+      <AddFoodModal ></AddFoodModal>
       <ConfirmationModal></ConfirmationModal>
     </div>
   );

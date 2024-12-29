@@ -26,6 +26,8 @@ const ContextProvider = ({ children }) => {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   const [messageReciverId, setMessageReciverId] = useState("");
+  const [pageNumber, setPageNumber] = useState(1);
+  
 
   const registeration = (email, password) => {
     setLoading(true);
@@ -98,6 +100,8 @@ const ContextProvider = ({ children }) => {
     setMessages,
     messageReciverId,
     setMessageReciverId,
+    setPageNumber,
+    pageNumber
   };
 
   return (

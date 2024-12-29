@@ -54,7 +54,7 @@ const Sidebar = () => {
             Messages
           </NavLink>
 
-          <NavLink
+          {/* <NavLink
             className={
               "rounded-lg px-4 gap-3 font-bold w-full mb-4 py-2 flex items-center"
             }
@@ -62,7 +62,7 @@ const Sidebar = () => {
           >
             <i className="fas fa-user-check text-xl"></i>
             Users
-          </NavLink>
+          </NavLink> */}
 
           <NavLink
             className={
@@ -73,6 +73,20 @@ const Sidebar = () => {
             <i className="fa-solid fa-hand-holding-medical text-xl"></i>
             Donation
           </NavLink>
+
+          
+
+          <NavLink
+            className={
+              "rounded-lg px-4 gap-3 font-bold w-full mb-4 py-2 flex items-center"
+            }
+            to={"my-donation"}
+          >
+            <i className="fa-solid fa-hand-holding-medical text-xl"></i>
+            My Donations
+          </NavLink>
+
+         
 
           <NavLink
             className={

@@ -79,7 +79,6 @@ useEffect(() => {
       setNewMessage("");
       
       axios.post("/create-conversation",{ ...messageData, lastMessageText: messageData.text }).then((res)=>{
-        console.log(res.data);
       })
        
     } else {

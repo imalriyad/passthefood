@@ -7,9 +7,30 @@ import {
     ModalFooter,
     Button,
   } from "@nextui-org/react";
+import useAxios from '../hooks/useAxios';
+import useDonation from '../hooks/useDonation';
 
-const DistrbuteConfirm = ({isDistrubuteDone,setIsDistrubteDone}) => {
+const DistrbuteConfirm = ({isDistrubuteDone,setIsDistrubteDone, id}) => {
     const onClose = () => setIsDistrubteDone(false);
+    const axios = useAxios()
+    const {refetch} = useDonation()
+    
+    const handleDistribution = async () => {
+      try {
+        const res = await axios.patch(`/donations/${id}/distribute`);
+        console.log(res.data);
+        
+        if (res.data.status === 200) {
+          onClose(); 
+          refetch()
+        } else {
+          console.error('Failed to mark as distributed:');
+        }
+      } catch (error) {
+        console.error('Error while distributing donation:');
+      }
+    };
+    
 
     return (
         <>
@@ -26,7 +47,7 @@ const DistrbuteConfirm = ({isDistrubuteDone,setIsDistrubteDone}) => {
         <Button color="default" onPress={onClose}>
          Cancel
         </Button>
-        <Button color="primary" onPress={onClose}>
+        <Button color="primary" onClick={handleDistribution}>
          Yes
         </Button>
         </ModalFooter>

@@ -2,12 +2,11 @@ import { useEffect, useState } from "react";
 import UseAllContext from "../../hooks/UseAllContext";
 import useAxios from "../../hooks/useAxios";
 import useUserInfo from "../../hooks/useUserInfo";
+import PeopleList from "./PeopleList";
 
 const PersonsBar = () => {
-  const { setIsMessageOpen, setMessageReciverId ,setMessages,messageReciverId } = UseAllContext();
+  const { setIsMessageOpen, setMessageReciverId ,setMessages, messageReciverId } = UseAllContext();
   const [conversationsPeople, setConversationPeople] = useState([]);
-  const [lastMessage, setLastMessage] = useState();
-
   const axios = useAxios();
   const [userInfo] = useUserInfo();
   const userId = userInfo?._id;
@@ -18,27 +17,16 @@ const PersonsBar = () => {
         .get(`/get-conversations-messages/${userId}`)
         .then((res) => {
           if(messageReciverId){
-            setMessages(res.data.messages)
-          }
-          const participants = res.data?.conversations?.[0]?.participants;
-          setLastMessage(res.data?.conversations[0]?.lastMessage);
-
-          if (participants && participants.length === 2) {
-            const sender = participants.find(
-              (participant) => !participant.isReciver
+            const allMessages = res.data.messages;
+            const filteredMessages = allMessages.filter(
+              (message) =>
+                (message.senderId === userId && message.receiverId === messageReciverId) ||
+                (message.senderId === messageReciverId && message.receiverId === userId)
             );
-            const receiver = participants.find(
-              (participant) => participant.isReciver
-            );
-
-            if (receiver?.userId === userId) {
-              setConversationPeople(sender);
-            } else {
-              setConversationPeople(receiver);
-            }
-          } else {
-            console.error("Invalid participants data:", participants);
+            setMessages(filteredMessages);
           }
+          setConversationPeople(res.data.conversations);
+          
         })
         .catch((error) => {
           console.error("Error fetching conversations:", error);
@@ -46,9 +34,9 @@ const PersonsBar = () => {
     }
   }, [userId, axios,messageReciverId]);
 
-  const handleConversation = () => {
+  const handleConversation = (id) => {
     setIsMessageOpen(true);
-    setMessageReciverId(conversationsPeople.userId);
+    setMessageReciverId(id);
   };
 
   return (
@@ -58,33 +46,12 @@ const PersonsBar = () => {
           <h1 className="text-2xl font-bold">Inbox</h1>
         </div>
 
-        <div className="mt-6 flex flex-col gap-4 h-[80vh] overflow-y-auto">
-          <div
-            onClick={handleConversation}
-            className="bg-[#6bb0f5] text-white cursor-pointer p-3 w-full flex items-center gap-4 rounded-lg"
-          >
-            <img
-              className="w-10 h-10 border-2 object-cover rounded-full"
-              src={
-                conversationsPeople?.avatar && conversationsPeople?.avatar
-                  ? conversationsPeople?.avatar
-                  : "default-avatar.jpg"
-              }
-            />
+     <PeopleList handleConversation={handleConversation} conversations={conversationsPeople} ></PeopleList>
 
-            <div>
-              <h1 className="font-medium">
-                {conversationsPeople?.name && conversationsPeople?.name
-                  ? conversationsPeople?.name
-                  : ""}
-              </h1>
-              <p className="text-sm font-light">{lastMessage && lastMessage}</p>
-            </div>
-          </div>
-        </div>
       </div>
     </>
   );
 };
 
 export default PersonsBar;
+

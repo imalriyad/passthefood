@@ -2,7 +2,7 @@ import {createBrowserRouter, } from "react-router-dom";
 import MainLayout from "../layout/MainLayout";
 import Home from "../pages/Home";
 import Login from "../authentication/Login";
-import Registration from "../authentication/registration ";
+import Registration from "../authentication/Registration ";
 import Dashboard from "../dashboard/Maindashboard/Dashboard";
 import Overview from "../dashboard/Maindashboard/overview/Overview";
 import ManageUser from "../dashboard/Maindashboard/manageuser/ManageUser";

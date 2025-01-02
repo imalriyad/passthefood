@@ -2,7 +2,6 @@ import {createBrowserRouter, } from "react-router-dom";
 import MainLayout from "../layout/MainLayout";
 import Home from "../pages/Home";
 import Login from "../authentication/Login";
-import Registration from "../authentication/Registration ";
 import Dashboard from "../dashboard/Maindashboard/Dashboard";
 import Overview from "../dashboard/Maindashboard/overview/Overview";
 import ManageUser from "../dashboard/Maindashboard/manageuser/ManageUser";
@@ -11,6 +10,7 @@ import Analytics from "../dashboard/Maindashboard/analytics/Analytics";
 import MainMessageCompo from "../components/message/MainMessageCompo";
 import PrivateRoute from "../private/PrivateRoute";
 import MyDonation from "../dashboard/Maindashboard/donation/MyDonation";
+import Registration from "../authentication/Registration";
 
 
 

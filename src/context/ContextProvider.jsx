@@ -30,6 +30,7 @@ const ContextProvider = ({ children }) => {
   const [pageNumber, setPageNumber] = useState(1);
   const axios = useAxios()
 
+
   const registeration = (email, password) => {
     setLoading(true);
     return createUserWithEmailAndPassword(auth, email, password);
@@ -63,7 +64,7 @@ const ContextProvider = ({ children }) => {
     const unsubScribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
       if(currentUser){
-        axios.post("/auth", {email: currentUser.email})
+        axios.post("/authentication", {email: currentUser.email})
         .then(res =>{
           if(res.data){
             localStorage.setItem('token', res.data.token)

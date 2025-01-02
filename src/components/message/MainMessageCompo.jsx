@@ -8,7 +8,7 @@ import { io } from "socket.io-client";
 import useUserInfo from "../../hooks/useUserInfo";
 import moment from "moment/moment";
 import useAxios from "../../hooks/useAxios";
-const socket = io("http://localhost:3000");
+const socket = io("http://localhost:5000");
 
 const MainMessageCompo = () => {
   const {

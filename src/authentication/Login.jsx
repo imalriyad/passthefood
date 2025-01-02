@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import ModalCompo from "../utils/ModalCompo";
-import SocialLogin from "./SocialLogin";
 import useAllContext from "../hooks/UseAllContext";
 
 
@@ -96,12 +95,8 @@ const Login = () => {
               Registration
             </Link>
           </p>
-          <div className="flex items-center my-4">
-            <hr className="flex-grow border-gray-300" />
-            <span className="mx-2 text-gray-400">Or</span>
-            <hr className="flex-grow border-gray-300" />
-          </div>
-          <SocialLogin></SocialLogin>
+         
+    
         </div>
 
         <div className="lg:w-[50%] py-10 ">

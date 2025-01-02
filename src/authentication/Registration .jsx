@@ -5,7 +5,6 @@ import { useForm } from "react-hook-form";
 import { sendEmailVerification } from "firebase/auth";
 import auth from "./firebase.config";
 import ModalCompo from "../utils/ModalCompo";
-import SocialLogin from "./SocialLogin";
 import { Select, SelectItem } from "@nextui-org/react";
 import useAxios from "../hooks/useAxios";
 import useAllContext from "../hooks/UseAllContext";
@@ -194,12 +193,6 @@ const Registration = () => {
             Login
           </Link>
         </p>
-        <div className="flex items-center my-4">
-          <hr className="flex-grow border-gray-300" />
-          <span className="mx-2 text-gray-400">Or</span>
-          <hr className="flex-grow border-gray-300" />
-        </div>
-        <SocialLogin></SocialLogin>
       </div>
 
       <div className="lg:w-[50%] lg:h-[100vh] lg:py-20 py-8">

@@ -9,6 +9,7 @@ import {
   signInWithPopup,
   signOut,
 } from "firebase/auth";
+import useAxios from "../hooks/useAxios";
 
 const ContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -27,7 +28,7 @@ const ContextProvider = ({ children }) => {
   const [newMessage, setNewMessage] = useState("");
   const [messageReciverId, setMessageReciverId] = useState("");
   const [pageNumber, setPageNumber] = useState(1);
-  
+  const axios = useAxios()
 
   const registeration = (email, password) => {
     setLoading(true);
@@ -61,7 +62,19 @@ const ContextProvider = ({ children }) => {
   useEffect(() => {
     const unsubScribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
-      setLoading(false);
+      if(currentUser){
+        axios.post("/auth", {email: currentUser.email})
+        .then(res =>{
+          if(res.data){
+            localStorage.setItem('token', res.data.token)
+            setLoading(false);
+          }
+        })
+      } else{
+          localStorage.removeItem('token')
+          setLoading(false);
+      }
+      
     });
     return () => unsubScribe();
   }, []);

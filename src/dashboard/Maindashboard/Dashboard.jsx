@@ -10,7 +10,6 @@ const Dashboard = () => {
   const { isSidebarOpen, setSidebarOpen } = useAllContext()
  
   
-
    const toggleSidebar = () => {
      setSidebarOpen(!isSidebarOpen);
    };
